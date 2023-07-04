@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
-* Студент: [Nikita Khokhlov](https://up.htmlacademy.ru/react/13/user/2253881).
-* Наставник: `Неизвестно`.
+- Студент: [Nikita Khokhlov](https://up.htmlacademy.ru/react/13/user/2253881).
+- Наставник: [Глеб Клецков](https://htmlacademy.ru/profile/id1487865).
 
 ---
 
