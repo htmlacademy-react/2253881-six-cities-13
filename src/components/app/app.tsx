@@ -1,8 +1,12 @@
-import Main from '../../pages/main/main';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainScreen from '../../pages/main-screen/main-screen';
 import { offersCount } from '../../consts';
 
-function App(): JSX.Element {
-  return <Main countOffers={offersCount} />;
-}
+const App: React.FC = () => (
+  <BrowserRouter>
+    <MainScreen countOffers={offersCount} />
+  </BrowserRouter>
+);
 
 export default App;
