@@ -2,10 +2,10 @@ import OnePlaceCard from '../../components/one-place-card/one-place-card';
 import React from 'react';
 
 interface IMainProps {
-  countOffers: number;
+  offersCount: number;
 }
 
-const MainScreen: React.FC<IMainProps> = ({ countOffers }) => (
+const MainScreen: React.FC<IMainProps> = ({ offersCount }) => (
   <div className="page page--gray page--main">
     <header className="header">
       <div className="container">
@@ -89,7 +89,7 @@ const MainScreen: React.FC<IMainProps> = ({ countOffers }) => (
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">
-              {countOffers} places to stay in Amsterdam
+              {offersCount} places to stay in Amsterdam
             </b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>

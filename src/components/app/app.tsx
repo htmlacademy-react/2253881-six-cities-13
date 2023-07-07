@@ -12,7 +12,7 @@ const App: React.FC = () => (
   <BrowserRouter>
     <Routes>
       <Route path={PATHS_NAMES.Main}>
-        <Route index element={<MainScreen countOffers={OFFERS_COUNT} />} />
+        <Route index element={<MainScreen offersCount={OFFERS_COUNT} />} />
         <Route
           path={PATHS_NAMES.Favorite}
           element={
