@@ -1,11 +1,13 @@
-import OnePlaceCard from '../../components/one-place-card/one-place-card';
 import React from 'react';
+import OffersList from '../../components/offers-list/offers-list';
+import { IOffer } from '../../mocks/offers-types';
 
 interface IMainProps {
   offersCount: number;
+  offers: Array<IOffer>;
 }
 
-const MainScreen: React.FC<IMainProps> = ({ offersCount }) => (
+const MainScreen: React.FC<IMainProps> = ({ offersCount, offers }) => (
   <div className="page page--gray page--main">
     <header className="header">
       <div className="container">
@@ -118,11 +120,7 @@ const MainScreen: React.FC<IMainProps> = ({ offersCount }) => (
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              <OnePlaceCard />
-              <OnePlaceCard />
-              <OnePlaceCard />
-              <OnePlaceCard />
-              <OnePlaceCard />
+              <OffersList offers={offers} />
             </div>
           </section>
           <div className="cities__right-section">

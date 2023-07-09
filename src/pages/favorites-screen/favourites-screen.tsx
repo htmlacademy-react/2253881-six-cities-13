@@ -1,6 +1,11 @@
 import React from 'react';
+import { IOffer } from '../../mocks/offers-types';
 
-const FavoritesScreen: React.FC = () => (
+interface IFavouriteScreenProps {
+  offers: Array<IOffer>;
+}
+
+const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
   <div className="page">
     <header className="header">
       <div className="container">
