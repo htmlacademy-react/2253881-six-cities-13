@@ -1,15 +1,15 @@
 export const OFFERS_COUNT = 10;
 
-export const PATHS_NAMES = {
-  Main: '/',
-  Favorite: 'FAVOURITE',
-  Login: 'LOGIN',
-  Offer: 'OFFER',
-  NotFound: '*',
-} as const;
+export const enum PATHS_NAMES {
+  Main = '/',
+  Favorite = 'FAVOURITE',
+  Login = 'LOGIN',
+  Offer = 'OFFER',
+  NotFound = '*',
+}
 
-export const AUTH_STATUS = {
-  Auth: 'AUTH',
-  NoAuth: 'NO_AUTH',
-  Unknown: 'UNKNOWN',
-} as const;
+export const enum AUTH_STATUS {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
