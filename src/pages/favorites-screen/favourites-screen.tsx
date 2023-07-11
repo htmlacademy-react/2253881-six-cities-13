@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../mocks/offers-types';
+import { PATHS_NAMES } from '../../consts';
 
 interface IFavouriteScreenProps {
   offers: Array<IOffer>;
@@ -115,9 +116,11 @@ const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
                           </div>
                         </div>
                         <h2 className="place-card__name">
-                          <a href="#">{el.title}</a>
+                          <Link to={`../${PATHS_NAMES.Offer}/${el.id}`}>
+                            {el.title}
+                          </Link>
                         </h2>
-                        <p className="place-card__type">Apartment</p>
+                        <p className="place-card__type">{el.type}</p>
                       </div>
                     </article>
                   </div>
