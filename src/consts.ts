@@ -2,9 +2,9 @@ export const OFFERS_COUNT = 10;
 
 export const enum PATHS_NAMES {
   Main = '/',
-  Favorite = 'FAVOURITE',
-  Login = 'LOGIN',
-  Offer = 'OFFER',
+  Favorite = 'favourite',
+  Login = 'login',
+  Offer = 'offer',
   NotFound = '*',
 }
 

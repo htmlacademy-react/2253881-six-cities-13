@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IOffer } from '../../mocks/offers-types';
 
 const OnePlaceCard: React.FC<IOffer> = (props) => {
+  const [isHover, setHover] = useState<boolean>(false);
+
+  const mouseEnterHandler = () => {
+    setHover(!isHover);
+  };
+
   const { title, type, price, isPremium, rating, previewImage } = props;
 
   const ratingLength = `${(100 / 5) * rating}%`;
 
   return (
-    <article className="cities__card place-card">
+    <article
+      onMouseEnter={mouseEnterHandler}
+      onMouseLeave={mouseEnterHandler}
+      className="cities__card place-card"
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
