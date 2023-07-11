@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IOffer } from '../../mocks/offers-types';
+import { PATHS_NAMES } from '../../consts';
 
 const OnePlaceCard: React.FC<IOffer> = (props) => {
   const [isHover, setHover] = useState<boolean>(false);
@@ -8,7 +10,7 @@ const OnePlaceCard: React.FC<IOffer> = (props) => {
     setHover(!isHover);
   };
 
-  const { title, type, price, isPremium, rating, previewImage } = props;
+  const { id, title, type, price, isPremium, rating, previewImage } = props;
 
   const ratingLength = `${(100 / 5) * rating}%`;
 
@@ -54,7 +56,7 @@ const OnePlaceCard: React.FC<IOffer> = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`../${PATHS_NAMES.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

@@ -13,7 +13,7 @@ const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link" href="main.html">
+            <Link className="header__logo-link" to={PATHS_NAMES.Main}>
               <img
                 className="header__logo"
                 src="img/logo.svg"
@@ -21,7 +21,7 @@ const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
                 width="81"
                 height="41"
               />
-            </a>
+            </Link>
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
