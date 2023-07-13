@@ -5,20 +5,28 @@ import FavoritesScreen from '../../pages/favorites-screen/favourites-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFound from '../not-found/not-found';
-import RouteProtection from '../route-protection/route-protection';
+import PrivateRoute from '../private-route/private-route';
+import { IOffer } from '../../mocks/offers-types';
 import { OFFERS_COUNT, PATHS_NAMES, AUTH_STATUS } from '../../consts';
 
-const App: React.FC = () => (
+interface IAppProps {
+  offers: Array<IOffer>;
+}
+
+const App: React.FC<IAppProps> = ({ offers }) => (
   <BrowserRouter>
     <Routes>
       <Route path={PATHS_NAMES.Main}>
-        <Route index element={<MainScreen offersCount={OFFERS_COUNT} />} />
+        <Route
+          index
+          element={<MainScreen offers={offers} offersCount={OFFERS_COUNT} />}
+        />
         <Route
           path={PATHS_NAMES.Favorite}
           element={
-            <RouteProtection authStatus={AUTH_STATUS.NoAuth}>
-              <FavoritesScreen />
-            </RouteProtection>
+            <PrivateRoute authStatus={AUTH_STATUS.Auth}>
+              <FavoritesScreen offers={offers} />
+            </PrivateRoute>
           }
         />
         <Route path={PATHS_NAMES.Login} element={<LoginScreen />} />

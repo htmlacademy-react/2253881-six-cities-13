@@ -2,12 +2,12 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { AUTH_STATUS, PATHS_NAMES } from '../../consts';
 
-interface IRouteProtectionProps {
+interface IPrivateRouteProps {
   authStatus: string;
   children: JSX.Element;
 }
 
-const RouteProtection: React.FC<IRouteProtectionProps> = (props) => {
+const PrivateRoute: React.FC<IPrivateRouteProps> = (props) => {
   const { authStatus, children } = props;
 
   return authStatus === AUTH_STATUS.Auth ? (
@@ -17,4 +17,4 @@ const RouteProtection: React.FC<IRouteProtectionProps> = (props) => {
   );
 };
 
-export default RouteProtection;
+export default PrivateRoute;
