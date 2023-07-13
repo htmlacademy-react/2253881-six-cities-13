@@ -1,5 +1,4 @@
 export const OFFERS_COUNT = 10;
-
 export const COUNT_STARS = [1, 2, 3, 4, 5];
 
 export const enum Path {
