@@ -134,11 +134,9 @@ const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
     <footer className="footer container">
       <a className="footer__logo-link" href="main.html">
         <img
-          className="footer__logo"
+          className="footer__logo img-footer"
           src="img/logo.svg"
           alt="6 cities logo"
-          width="64"
-          height="33"
         />
       </a>
     </footer>

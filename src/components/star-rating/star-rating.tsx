@@ -1,4 +1,6 @@
 import React from 'react';
+import { COUNT_STARS } from '../../consts';
+import './star-rating.css';
 
 interface IStarRatingProps {
   starChangeHandler: (evt: React.ChangeEvent<HTMLInputElement>) => void;
@@ -6,7 +8,7 @@ interface IStarRatingProps {
 
 const StarRating: React.FC<IStarRatingProps> = ({ starChangeHandler }) => (
   <div className="reviews__rating-form form__rating">
-    {[1, 2, 3, 4, 5].map((el) => (
+    {COUNT_STARS.map((el) => (
       <>
         <input
           onChange={starChangeHandler}
@@ -21,7 +23,7 @@ const StarRating: React.FC<IStarRatingProps> = ({ starChangeHandler }) => (
           className="reviews__rating-label form__rating-label"
           title="perfect"
         >
-          <svg className="form__star-image" width="37" height="33">
+          <svg className="form__star-image starRating">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
