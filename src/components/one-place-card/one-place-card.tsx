@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../mocks/offers-types';
-import { PATHS_NAMES } from '../../consts';
+import { Path } from '../../consts';
 
 const OnePlaceCard: React.FC<IOffer> = (props) => {
   const [isHover, setHover] = useState<boolean>(false);
 
-  const mouseEnterHandler = () => {
+  const mouseStatusEditHandler = () => {
     setHover(!isHover);
   };
 
@@ -16,8 +16,8 @@ const OnePlaceCard: React.FC<IOffer> = (props) => {
 
   return (
     <article
-      onMouseEnter={mouseEnterHandler}
-      onMouseLeave={mouseEnterHandler}
+      onMouseEnter={mouseStatusEditHandler}
+      onMouseLeave={mouseStatusEditHandler}
       className="cities__card place-card"
     >
       {isPremium && (
@@ -56,7 +56,7 @@ const OnePlaceCard: React.FC<IOffer> = (props) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`../${PATHS_NAMES.Offer}/${id}`}>{title}</Link>
+          <Link to={`../${Path.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

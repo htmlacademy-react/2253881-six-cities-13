@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { AUTH_STATUS, PATHS_NAMES } from '../../consts';
+import { AuthStatus, Path } from '../../consts';
 
 interface IPrivateRouteProps {
   authStatus: string;
@@ -10,10 +10,10 @@ interface IPrivateRouteProps {
 const PrivateRoute: React.FC<IPrivateRouteProps> = (props) => {
   const { authStatus, children } = props;
 
-  return authStatus === AUTH_STATUS.Auth ? (
+  return authStatus === AuthStatus.Auth ? (
     children
   ) : (
-    <Navigate to={`../${PATHS_NAMES.Login}`} />
+    <Navigate to={`../${Path.Login}`} />
   );
 };
 

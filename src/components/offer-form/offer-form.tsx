@@ -8,14 +8,16 @@ interface IForm {
 const OfferForm: React.FC = () => {
   const [form, setForm] = useState<IForm>({ rating: null, text: '' });
 
-  const starHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const starChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prevState) => ({
       ...prevState,
       rating: Number(evt.target.value),
     }));
   };
 
-  const textAreaHandler = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const textAreaChangeHandler = (
+    evt: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setForm((prevState) => ({
       ...prevState,
       text: evt.target.value,
@@ -38,7 +40,7 @@ const OfferForm: React.FC = () => {
       </label>
       <div className="reviews__rating-form form__rating">
         <input
-          onChange={starHandler}
+          onChange={starChangeHandler}
           className="form__rating-input visually-hidden"
           name="rating"
           value="5"
@@ -56,7 +58,7 @@ const OfferForm: React.FC = () => {
         </label>
 
         <input
-          onChange={starHandler}
+          onChange={starChangeHandler}
           className="form__rating-input visually-hidden"
           name="rating"
           value="4"
@@ -74,7 +76,7 @@ const OfferForm: React.FC = () => {
         </label>
 
         <input
-          onChange={starHandler}
+          onChange={starChangeHandler}
           className="form__rating-input visually-hidden"
           name="rating"
           value="3"
@@ -92,7 +94,7 @@ const OfferForm: React.FC = () => {
         </label>
 
         <input
-          onChange={starHandler}
+          onChange={starChangeHandler}
           className="form__rating-input visually-hidden"
           name="rating"
           value="2"
@@ -110,7 +112,7 @@ const OfferForm: React.FC = () => {
         </label>
 
         <input
-          onChange={starHandler}
+          onChange={starChangeHandler}
           className="form__rating-input visually-hidden"
           name="rating"
           value="1"
@@ -128,7 +130,7 @@ const OfferForm: React.FC = () => {
         </label>
       </div>
       <textarea
-        onChange={textAreaHandler}
+        onChange={textAreaChangeHandler}
         value={form.text}
         className="reviews__textarea form__textarea"
         id="review"
