@@ -4,14 +4,28 @@ import { Link } from 'react-router-dom';
 import { IOffer } from '../../mocks/offers-types';
 import { Path } from '../../consts';
 
-const OnePlaceCard: React.FC<IOffer> = (props) => {
+interface OnePlaceCardOffer extends IOffer {
+  setActiveOfferId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const OnePlaceCard: React.FC<OnePlaceCardOffer> = (props) => {
   const [isHover, setHover] = useState<boolean>(false);
+
+  const {
+    id,
+    title,
+    type,
+    price,
+    isPremium,
+    rating,
+    previewImage,
+    setActiveOfferId,
+  } = props;
 
   const mouseStatusEditHandler = () => {
     setHover(!isHover);
+    setActiveOfferId(id);
   };
-
-  const { id, title, type, price, isPremium, rating, previewImage } = props;
 
   const ratingLength = `${(100 / 5) * rating}%`;
 
