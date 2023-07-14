@@ -31,7 +31,7 @@ export default function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, offer.city.location]);
+  }, [mapRef, offer]);
 
   return map;
 }
