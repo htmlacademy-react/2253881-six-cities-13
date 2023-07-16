@@ -10,21 +10,19 @@ interface OnePlaceCardOffer extends IOffer {
   setActiveOfferId?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const OnePlaceCard: React.FC<OnePlaceCardOffer> = (props) => {
+const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
+  id,
+  title,
+  type,
+  price,
+  isPremium,
+  rating,
+  previewImage,
+  setActiveOfferId,
+}) => {
   const isOffer = useLocation().pathname.includes(Path.Offer);
 
   const [isHover, setHover] = useState<boolean>(false);
-
-  const {
-    id,
-    title,
-    type,
-    price,
-    isPremium,
-    rating,
-    previewImage,
-    setActiveOfferId,
-  } = props;
 
   const mouseStatusEditHandler = () => {
     setHover(!isHover);
