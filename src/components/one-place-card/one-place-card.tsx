@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import './one-place-card.css';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../mocks/offers-types';
 import { Path } from '../../consts';
+import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
+import './one-place-card.css';
 
 interface OnePlaceCardOffer extends IOffer {
-  setActiveOfferId: React.Dispatch<React.SetStateAction<string>>;
+  setActiveOfferId?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const OnePlaceCard: React.FC<OnePlaceCardOffer> = (props) => {
+  const isOffer = useLocation().pathname.includes(Path.Offer);
+
   const [isHover, setHover] = useState<boolean>(false);
 
   const {
@@ -24,23 +28,38 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = (props) => {
 
   const mouseStatusEditHandler = () => {
     setHover(!isHover);
-    setActiveOfferId(id);
+    if (setActiveOfferId) {
+      setActiveOfferId(id);
+    }
   };
 
   const ratingLength = `${(100 / 5) * rating}%`;
+
+  // prettier-ignore
 
   return (
     <article
       onMouseEnter={mouseStatusEditHandler}
       onMouseLeave={mouseStatusEditHandler}
-      className="cities__card place-card"
+      className={classNames(
+        'place-card',
+        {
+          'cities__card': isOffer,
+        },
+        { 'near-places__card': !isOffer }
+      )}
     >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div
+        className={classNames('place-card__image-wrapper',
+          {'cities__image-wrapper': isOffer},
+          {'near-places__image-wrapper': !isOffer}
+        )}
+      >
         <a href="#">
           <img
             className="place-card__image img-card"

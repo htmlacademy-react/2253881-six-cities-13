@@ -20,7 +20,7 @@ const currentCustomIcon = new Icon({
 
 interface IMapProps {
   offers: Array<IOffer>;
-  selectedPointId: string;
+  selectedPointId?: string;
 }
 
 const Map: React.FC<IMapProps> = ({ offers, selectedPointId }) => {
