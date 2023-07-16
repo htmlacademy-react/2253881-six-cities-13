@@ -38,7 +38,7 @@ const Map: React.FC<IMapProps> = ({ offers, selectedPointId }) => {
 
         marker
           .setIcon(
-            selectedPointId !== undefined && el.id === selectedPointId
+            selectedPointId && el.id === selectedPointId
               ? currentCustomIcon
               : defaultCustomIcon
           )

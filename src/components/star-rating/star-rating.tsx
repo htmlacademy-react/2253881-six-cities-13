@@ -1,5 +1,6 @@
 import React from 'react';
 import { COUNT_STARS } from '../../consts';
+import { nanoid } from '@reduxjs/toolkit';
 import './star-rating.css';
 
 interface IStarRatingProps {
@@ -9,7 +10,7 @@ interface IStarRatingProps {
 const StarRating: React.FC<IStarRatingProps> = ({ starChangeHandler }) => (
   <div className="reviews__rating-form form__rating">
     {COUNT_STARS.map((el) => (
-      <>
+      <React.Fragment key={nanoid()}>
         <input
           onChange={starChangeHandler}
           className="form__rating-input visually-hidden"
@@ -27,7 +28,7 @@ const StarRating: React.FC<IStarRatingProps> = ({ starChangeHandler }) => (
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
-      </>
+      </React.Fragment>
     ))}
   </div>
 );
