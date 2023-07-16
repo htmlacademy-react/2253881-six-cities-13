@@ -58,13 +58,13 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
           {'near-places__image-wrapper': !isOffer}
         )}
       >
-        <a href="#">
+        <Link to='#'>
           <img
             className="place-card__image img-card"
             src={previewImage}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

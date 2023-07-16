@@ -2,11 +2,11 @@ import React from 'react';
 import OffersList from '../offers-list/offers-list';
 import { IOffer } from '../../mocks/offers-types';
 
-interface INearbyPlacesList {
+interface INearbyPlacesListProps {
   offers: Array<IOffer>;
 }
 
-const NearbyPlacesList: React.FC<INearbyPlacesList> = ({ offers }) => {
+const NearbyPlacesList: React.FC<INearbyPlacesListProps> = ({ offers }) => {
   const editedOffers = [...offers].splice(0, 3);
 
   return (

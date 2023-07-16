@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Path } from '../../consts';
 import './header.css';
 
@@ -12,13 +12,16 @@ const Header: React.FC = () => {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <a className="header__logo-link header__logo-link--active">
+            <Link
+              to={Path.Main}
+              className="header__logo-link header__logo-link--active"
+            >
               <img
                 className="header__logo img-size"
                 src="img/logo.svg"
                 alt="6 cities logo"
               />
-            </a>
+            </Link>
           </div>
           {!isNavToRender && (
             <nav className="header__nav">
