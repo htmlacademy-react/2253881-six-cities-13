@@ -10,7 +10,9 @@ interface IMainProps {
 }
 
 const MainScreen: React.FC<IMainProps> = ({ offersCount, offers }) => {
-  const [activeOfferId, setActiveOfferId] = useState<string>('0');
+  const [activeOfferId, setActiveOfferId] = useState<string>(
+    'not selected from start'
+  );
 
   return (
     <div className="page page--gray page--main">
