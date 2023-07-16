@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../mocks/offers-types';
-import { PATHS_NAMES } from '../../consts';
+import { Path } from '../../consts';
 
 interface IFavouriteScreenProps {
   offers: Array<IOffer>;
@@ -13,7 +13,7 @@ const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className="header__logo-link" to={PATHS_NAMES.Main}>
+            <Link className="header__logo-link" to={Path.Main}>
               <img
                 className="header__logo"
                 src="img/logo.svg"
@@ -116,7 +116,7 @@ const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
                           </div>
                         </div>
                         <h2 className="place-card__name">
-                          <Link to={`../${PATHS_NAMES.Offer}/${el.id}`}>
+                          <Link to={`../${Path.Offer}/${el.id}`}>
                             {el.title}
                           </Link>
                         </h2>
@@ -134,11 +134,9 @@ const FavoritesScreen: React.FC<IFavouriteScreenProps> = ({ offers }) => (
     <footer className="footer container">
       <a className="footer__logo-link" href="main.html">
         <img
-          className="footer__logo"
+          className="footer__logo img-footer"
           src="img/logo.svg"
           alt="6 cities logo"
-          width="64"
-          height="33"
         />
       </a>
     </footer>

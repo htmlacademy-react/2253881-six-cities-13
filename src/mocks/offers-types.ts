@@ -4,7 +4,7 @@ interface ILocation {
   zoom: number;
 }
 
-interface ICity {
+export interface ICity {
   name: string;
   location: ILocation;
 }

@@ -9,14 +9,14 @@ export const OFFERS: Array<IOffer> = [
     city: {
       name: 'Boston',
       location: {
-        latitude: 51.35514938496378,
-        longitude: 5.673877537499948,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 8,
       },
     },
     location: {
-      latitude: 51.35514938496378,
-      longitude: 5.673877537499948,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 3,
     },
     isFavorite: false,
@@ -32,14 +32,14 @@ export const OFFERS: Array<IOffer> = [
     city: {
       name: 'Moskow',
       location: {
-        latitude: 29.35514938496378,
-        longitude: 8.673877537499948,
+        latitude: 52.3609553943508,
+        longitude: 4.85309666406198,
         zoom: 8,
       },
     },
     location: {
-      latitude: 29.35514938496378,
-      longitude: 8.673877537499948,
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
       zoom: 8,
     },
     isFavorite: false,
@@ -55,14 +55,14 @@ export const OFFERS: Array<IOffer> = [
     city: {
       name: 'Piter',
       location: {
-        latitude: 23.35514938496378,
-        longitude: 92.673877537499948,
+        latitude: 52.3909553943508,
+        longitude: 4.929309666406198,
         zoom: 8,
       },
     },
     location: {
-      latitude: 23.35514938496378,
-      longitude: 92.673877537499948,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 8,
     },
     isFavorite: true,
@@ -78,14 +78,14 @@ export const OFFERS: Array<IOffer> = [
     city: {
       name: 'London',
       location: {
-        latitude: 11.35514938496378,
-        longitude: 7.673877537499948,
+        latitude: 52.3809553943508,
+        longitude: 4.939309666406198,
         zoom: 8,
       },
     },
     location: {
-      latitude: 11.35514938496378,
-      longitude: 7.673877537499948,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 8,
     },
     isFavorite: true,

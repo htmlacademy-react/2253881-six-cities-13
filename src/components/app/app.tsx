@@ -7,7 +7,7 @@ import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import { IOffer } from '../../mocks/offers-types';
-import { OFFERS_COUNT, PATHS_NAMES, AUTH_STATUS } from '../../consts';
+import { OFFERS_COUNT, Path, AuthStatus } from '../../consts';
 
 interface IAppProps {
   offers: Array<IOffer>;
@@ -16,22 +16,22 @@ interface IAppProps {
 const App: React.FC<IAppProps> = ({ offers }) => (
   <BrowserRouter>
     <Routes>
-      <Route path={PATHS_NAMES.Main}>
+      <Route path={Path.Main}>
         <Route
           index
           element={<MainScreen offers={offers} offersCount={OFFERS_COUNT} />}
         />
         <Route
-          path={PATHS_NAMES.Favorite}
+          path={Path.Favorite}
           element={
-            <PrivateRoute authStatus={AUTH_STATUS.Auth}>
+            <PrivateRoute authStatus={AuthStatus.Auth}>
               <FavoritesScreen offers={offers} />
             </PrivateRoute>
           }
         />
-        <Route path={PATHS_NAMES.Login} element={<LoginScreen />} />
-        <Route path={`${PATHS_NAMES.Offer}/:id`} element={<OfferScreen />} />
-        <Route path={PATHS_NAMES.NotFound} element={<NotFound />} />
+        <Route path={Path.Login} element={<LoginScreen />} />
+        <Route path={`${Path.Offer}/:id`} element={<OfferScreen />} />
+        <Route path={Path.NotFound} element={<NotFound />} />
       </Route>
     </Routes>
   </BrowserRouter>
