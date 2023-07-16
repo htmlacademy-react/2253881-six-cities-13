@@ -13,7 +13,7 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = (props) => {
   return authStatus === AuthStatus.Auth ? (
     children
   ) : (
-    <Navigate to={`../${Path.Login}`} />
+    <Navigate to={`/${Path.Login}`} />
   );
 };
 
