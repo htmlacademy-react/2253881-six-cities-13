@@ -1,12 +1,12 @@
 import { IComment } from './comments-types';
 
-export const COMMETS: Array<IComment> = [
+export const COMMENTS: Array<IComment> = [
   {
     id: '1',
     date: '2019-05-08T14:13:56.569Z',
     user: {
       name: 'nobody',
-      avatarUrl: 'https://url-to-image/image.png',
+      avatarUrl: 'img/avatar-max.jpg',
       isPro: false,
     },
     comment: 'Bautiful place',
@@ -14,10 +14,10 @@ export const COMMETS: Array<IComment> = [
   },
   {
     id: '1',
-    date: '2019-05-08T14:13:56.569Z',
+    date: '2019-01-08T14:13:56.569Z',
     user: {
       name: 'new body',
-      avatarUrl: 'https://url-to-image/image.png',
+      avatarUrl: 'img/avatar-max.jpg',
       isPro: true,
     },
     comment: ')()(((',
@@ -25,10 +25,10 @@ export const COMMETS: Array<IComment> = [
   },
   {
     id: '2',
-    date: '2019-05-08T14:13:56.569Z',
+    date: '2019-02-08T14:13:56.569Z',
     user: {
       name: 'Vasilyi Pupkin',
-      avatarUrl: 'https://url-to-image/image.png',
+      avatarUrl: 'img/avatar-max.jpg',
       isPro: false,
     },
     comment: 'Classno',
@@ -39,7 +39,7 @@ export const COMMETS: Array<IComment> = [
     date: '2019-05-08T14:13:56.569Z',
     user: {
       name: 'Jenya Erkin',
-      avatarUrl: 'https://url-to-image/image.png',
+      avatarUrl: 'img/avatar-max.jpg',
       isPro: false,
     },
     comment: 'ne classno',

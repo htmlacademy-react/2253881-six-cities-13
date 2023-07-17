@@ -20,7 +20,7 @@ const currentCustomIcon = new Icon({
 
 interface IMapProps {
   offers: Array<IOffer>;
-  selectedPointId: string;
+  selectedPointId?: string;
 }
 
 const Map: React.FC<IMapProps> = ({ offers, selectedPointId }) => {
@@ -38,7 +38,7 @@ const Map: React.FC<IMapProps> = ({ offers, selectedPointId }) => {
 
         marker
           .setIcon(
-            selectedPointId !== undefined && el.id === selectedPointId
+            selectedPointId && el.id === selectedPointId
               ? currentCustomIcon
               : defaultCustomIcon
           )
