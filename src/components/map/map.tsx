@@ -24,9 +24,8 @@ interface IMapProps {
 
 const Map: React.FC<IMapProps> = ({ selectedPointId }) => {
   const filtredOffers = useAppSelector((state) => state.filtredOffers);
-  const setAllOffers = useAppSelector((state) => state.offers);
   const mapRef = useRef<null | HTMLDivElement>(null);
-  const map = useMap(mapRef, setAllOffers[0]);
+  const map = useMap(mapRef, filtredOffers[0]);
 
   useEffect(() => {
     if (map) {
