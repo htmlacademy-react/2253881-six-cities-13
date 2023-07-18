@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import classNames from 'classnames';
 import { nanoid } from '@reduxjs/toolkit';
-import { setCity } from '../../store/actions';
+import { setCity, setFiltredOffers } from '../../store/actions';
 import { Country } from '../../consts';
 import './citys-navigation.css';
 
@@ -17,13 +17,16 @@ const CitysNavigation: React.FC = () => {
           <li key={nanoid()} className="locations__item">
             <button
               className={classNames(
-                'locations__item-link tabs__item active-button',
+                'locations__item-link',
+                'tabs__item',
+                'active-button',
                 {
                   'tabs__item--active': setedCity === el,
                 }
               )}
               onClick={() => {
                 dispatch(setCity({ city: el }));
+                dispatch(setFiltredOffers({ cityName: el }));
               }}
             >
               <span>{el}</span>

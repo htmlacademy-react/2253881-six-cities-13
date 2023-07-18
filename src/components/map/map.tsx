@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
+import { useAppSelector } from '../../hooks/redux-hooks';
 import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
-import { IOffer } from '../../mocks/offers-types';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../consts';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
@@ -19,37 +19,41 @@ const currentCustomIcon = new Icon({
 });
 
 interface IMapProps {
-  offers: Array<IOffer>;
   selectedPointId?: string;
 }
 
-const Map: React.FC<IMapProps> = ({ offers, selectedPointId }) => {
+const Map: React.FC<IMapProps> = ({ selectedPointId }) => {
+  const filtredOffers = useAppSelector((state) => state.filtredOffers);
+  const setAllOffers = useAppSelector((state) => state.offers);
   const mapRef = useRef<null | HTMLDivElement>(null);
-  const map = useMap(mapRef, offers[0]);
+  const map = useMap(mapRef, setAllOffers[0]);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
-      offers.forEach((el) => {
-        const marker = new Marker({
-          lat: el.city.location.latitude,
-          lng: el.city.location.longitude,
-        });
 
-        marker
-          .setIcon(
-            selectedPointId && el.id === selectedPointId
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
-      });
+      if (filtredOffers.length) {
+        filtredOffers.forEach((el) => {
+          const marker = new Marker({
+            lat: el.city.location.latitude,
+            lng: el.city.location.longitude,
+          });
+
+          marker
+            .setIcon(
+              selectedPointId && el.id === selectedPointId
+                ? currentCustomIcon
+                : defaultCustomIcon
+            )
+            .addTo(markerLayer);
+        });
+      }
 
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, selectedPointId]);
+  }, [map, filtredOffers, selectedPointId]);
 
   return <div className="map-size" ref={mapRef}></div>;
 };

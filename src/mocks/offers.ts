@@ -7,7 +7,7 @@ export const OFFERS: Array<IOffer> = [
     type: 'apartment',
     price: 888,
     city: {
-      name: 'Boston',
+      name: 'Amsterdam',
       location: {
         latitude: 52.3909553943508,
         longitude: 4.85309666406198,
@@ -30,7 +30,7 @@ export const OFFERS: Array<IOffer> = [
     type: 'private room',
     price: 717,
     city: {
-      name: 'Moskow',
+      name: 'Amsterdam',
       location: {
         latitude: 52.3609553943508,
         longitude: 4.85309666406198,
@@ -53,7 +53,7 @@ export const OFFERS: Array<IOffer> = [
     type: 'apartment',
     price: 1337,
     city: {
-      name: 'Piter',
+      name: 'Amsterdam',
       location: {
         latitude: 52.3909553943508,
         longitude: 4.929309666406198,
@@ -76,7 +76,7 @@ export const OFFERS: Array<IOffer> = [
     type: 'apartment',
     price: 666,
     city: {
-      name: 'London',
+      name: 'Amsterdam',
       location: {
         latitude: 52.3809553943508,
         longitude: 4.939309666406198,

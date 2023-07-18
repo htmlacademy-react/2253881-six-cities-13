@@ -3,6 +3,11 @@ import { Country } from '../consts';
 import { IOffer } from '../mocks/offers-types';
 
 export const setCity = createAction<{ city: Country }>('city/changeCity');
-export const setOffers = createAction<{ offers: Array<IOffer> }>(
-  'offers/setOffers'
-);
+
+export const setFiltredOffers = createAction<{
+  cityName: string;
+}>('offers/setFiltredOffers');
+
+export const setAllOffers = createAction<{
+  offers: Array<IOffer>;
+}>('offers/setAllOffers');
