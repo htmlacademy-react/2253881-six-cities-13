@@ -19,6 +19,15 @@ export const enum Path {
   NotFound = '*',
 }
 
+export enum Country {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
+}
+
 export const enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
