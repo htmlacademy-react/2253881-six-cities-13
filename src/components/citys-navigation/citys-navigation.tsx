@@ -6,7 +6,7 @@ import { setCity, setFiltredOffers } from '../../store/actions';
 import { Country } from '../../consts';
 import './citys-navigation.css';
 
-const CitysNavigation: React.FC = () => {
+const CitiesNavigation: React.FC = () => {
   const setedCity = useAppSelector((state) => state.city);
   const dispatch = useAppDispatch();
 
@@ -38,4 +38,4 @@ const CitysNavigation: React.FC = () => {
   );
 };
 
-export default CitysNavigation;
+export default CitiesNavigation;

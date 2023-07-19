@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';
-import CitysNavigation from '../../components/citys-navigation/citys-navigation';
+import CitiesNavigation from '../../components/citys-navigation/citys-navigation';
 import { setAllOffers, setFiltredOffers } from '../../store/actions';
 import { IOffer } from '../../mocks/offers-types';
 
@@ -33,7 +33,7 @@ const MainScreen: React.FC<IMainProps> = ({ offersCount, offers }) => {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <CitysNavigation />
+          <CitiesNavigation />
         </div>
         <div className="cities">
           <div className="cities__places-container container">

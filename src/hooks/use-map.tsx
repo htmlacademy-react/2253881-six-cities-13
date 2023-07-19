@@ -18,7 +18,7 @@ export default function useMap(
           lat: offer ? offer.city.location.latitude : 52.35514938496378,
           lng: offer ? offer.city.location.longitude : 4.673877537499948,
         },
-        zoom: offer ? offer.city.location.zoom : 8,
+        zoom: offer ? offer.city.location.zoom : 4,
       });
 
       leaflet
