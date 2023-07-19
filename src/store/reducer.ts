@@ -52,7 +52,7 @@ export const mainReducer = createReducer(initialState, (builder) => {
           break;
         }
         case SortMethod.Popular: {
-          state.filtredOffers = [...state.offers].filter(
+          state.filtredOffers = state.offers.filter(
             (el) => el.city.name === state.city
           );
           break;
