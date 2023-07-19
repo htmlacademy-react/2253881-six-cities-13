@@ -6,7 +6,7 @@ import { IOffer } from '../mocks/offers-types';
 
 export default function useMap(
   mapRef: React.MutableRefObject<HTMLElement | null>,
-  offer: IOffer
+  offer?: IOffer
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
@@ -15,10 +15,10 @@ export default function useMap(
     if (mapRef.current && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: offer.city.location.latitude,
-          lng: offer.city.location.longitude,
+          lat: offer ? offer.city.location.latitude : 52.35514938496378,
+          lng: offer ? offer.city.location.longitude : 4.673877537499948,
         },
-        zoom: offer.city.location.zoom,
+        zoom: offer ? offer.city.location.zoom : 4,
       });
 
       leaflet

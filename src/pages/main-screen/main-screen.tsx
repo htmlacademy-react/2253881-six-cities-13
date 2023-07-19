@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';
+import CitiesNavigation from '../../components/citys-navigation/citys-navigation';
+import { setAllOffers, setFiltredOffers } from '../../store/actions';
 import { IOffer } from '../../mocks/offers-types';
 
 interface IMainProps {
@@ -10,6 +13,16 @@ interface IMainProps {
 }
 
 const MainScreen: React.FC<IMainProps> = ({ offersCount, offers }) => {
+  const activeCity = useAppSelector((state) => state.city);
+  const filtredOffers = useAppSelector((state) => state.filtredOffers);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setAllOffers({ offers }));
+    dispatch(setFiltredOffers({ cityName: activeCity }));
+  }, [dispatch, offers, activeCity]);
+
   const [activeOfferId, setActiveOfferId] = useState<string>(
     'not selected from start'
   );
@@ -20,47 +33,14 @@ const MainScreen: React.FC<IMainProps> = ({ offersCount, offers }) => {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesNavigation />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {offersCount} places to stay in Amsterdam
+                {offersCount} places to stay in {activeCity}
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -90,14 +70,14 @@ const MainScreen: React.FC<IMainProps> = ({ offersCount, offers }) => {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
-                  offers={offers}
+                  offers={filtredOffers}
                   setActiveOfferId={setActiveOfferId}
                 />
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map">
-                <Map offers={offers} selectedPointId={activeOfferId} />
+                <Map selectedPointId={activeOfferId} />
               </section>
             </div>
           </div>

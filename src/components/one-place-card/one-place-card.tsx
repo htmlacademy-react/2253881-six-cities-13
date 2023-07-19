@@ -26,9 +26,7 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
 
   const mouseStatusEditHandler = () => {
     setHover(!isHover);
-    if (setActiveOfferId) {
-      setActiveOfferId(id);
-    }
+    setActiveOfferId?.(id);
   };
 
   const ratingLength = `${(100 / 5) * rating}%`;
