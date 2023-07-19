@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import classNames from 'classnames';
 import { nanoid } from '@reduxjs/toolkit';
 import { setCity, setFiltredOffers, setSortMethod } from '../../store/actions';
-import { Country, SortMethod } from '../../consts';
+import { City, SortMethod } from '../../consts';
 import './citys-navigation.css';
 
 const CitiesNavigation: React.FC = () => {
@@ -13,7 +13,7 @@ const CitiesNavigation: React.FC = () => {
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        {Object.values(Country).map((el) => (
+        {Object.values(City).map((el) => (
           <li key={nanoid()} className="locations__item">
             <button
               className={classNames(

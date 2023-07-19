@@ -5,18 +5,18 @@ import {
   setAllOffers,
   setSortMethod,
 } from './actions';
-import { Country, SortMethod } from '../consts';
+import { City, SortMethod } from '../consts';
 import { IOffer } from '../mocks/offers-types';
 
 interface IStateType {
-  city: Country;
+  city: City;
   filtredOffers: Array<IOffer>;
   offers: Array<IOffer>;
   sortMethod: SortMethod;
 }
 
 const initialState: IStateType = {
-  city: Country.Paris,
+  city: City.Paris,
   filtredOffers: [],
   offers: [],
   sortMethod: SortMethod.Popular,
