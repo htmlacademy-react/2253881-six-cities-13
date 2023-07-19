@@ -15,7 +15,7 @@ export const enum Path {
   NotFound = '*',
 }
 
-export enum Country {
+export enum City {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',
