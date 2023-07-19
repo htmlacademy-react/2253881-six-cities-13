@@ -7,7 +7,7 @@ import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import { IOffer } from '../../mocks/offers-types';
-import { OFFERS_COUNT, Path, AuthStatus } from '../../consts';
+import { Path, AuthStatus } from '../../consts';
 import { COMMENTS } from '../../mocks/comments';
 
 interface IAppProps {
@@ -18,10 +18,7 @@ const App: React.FC<IAppProps> = ({ offers }) => (
   <BrowserRouter>
     <Routes>
       <Route path={Path.Main}>
-        <Route
-          index
-          element={<MainScreen offers={offers} offersCount={OFFERS_COUNT} />}
-        />
+        <Route index element={<MainScreen offers={offers} />} />
         <Route
           path={Path.Favorite}
           element={
