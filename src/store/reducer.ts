@@ -25,20 +25,20 @@ const initialState: IStateType = {
 export const mainReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setCity, (state, action) => {
-      state.city = action.payload.city;
+      state.city = action.payload;
     })
     .addCase(setFiltredOffers, (state, action) => {
       state.filtredOffers = state.offers.filter(
-        (country) => country.city.name === action.payload.cityName
+        (country) => country.city.name === action.payload
       );
     })
     .addCase(setAllOffers, (state, action) => {
-      state.offers = [...action.payload.offers];
+      state.offers = [...action.payload];
     })
     .addCase(setSortMethod, (state, action) => {
-      state.sortMethod = action.payload.sortMethod;
+      state.sortMethod = action.payload;
 
-      switch (action.payload.sortMethod) {
+      switch (action.payload) {
         case SortMethod.ByRating: {
           state.filtredOffers.sort((a, b) => b.rating - a.rating);
           break;

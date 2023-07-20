@@ -19,7 +19,7 @@ const SortPlaces: React.FC<ISortPlaces> = ({
   const dispath = useAppDispatch();
 
   const onClickLi = (sortMethod: SortMethod) => {
-    dispath(setSortMethod({ sortMethod }));
+    dispath(setSortMethod(sortMethod));
     setIsSortSelectOpen((isOpened) => !isOpened);
   };
 

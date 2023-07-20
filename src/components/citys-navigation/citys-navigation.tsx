@@ -25,9 +25,9 @@ const CitiesNavigation: React.FC = () => {
                 }
               )}
               onClick={() => {
-                dispatch(setCity({ city: el }));
-                dispatch(setFiltredOffers({ cityName: el }));
-                dispatch(setSortMethod({ sortMethod: SortMethod.Popular }));
+                dispatch(setCity(el));
+                dispatch(setFiltredOffers(el));
+                dispatch(setSortMethod(SortMethod.Popular));
               }}
             >
               <span>{el}</span>

@@ -19,8 +19,8 @@ const MainScreen: React.FC<IMainScreenProps> = ({ offers }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setAllOffers({ offers }));
-    dispatch(setFiltredOffers({ cityName: activeCity }));
+    dispatch(setAllOffers(offers));
+    dispatch(setFiltredOffers(activeCity));
   }, [dispatch, offers, activeCity]);
 
   const [activeOfferId, setActiveOfferId] = useState<string>(
