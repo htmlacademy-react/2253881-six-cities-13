@@ -154,7 +154,7 @@ const OfferScreen: React.FC<IOfferScreenProps> = ({ offers, comments }) => {
             </div>
           </div>
           <section className="offer__map map">
-            <Map offers={editedOffers} />
+            <Map />
           </section>
         </section>
         <div className="container">

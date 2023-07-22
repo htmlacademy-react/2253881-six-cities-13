@@ -7,7 +7,7 @@ export const OFFERS: Array<IOffer> = [
     type: 'apartment',
     price: 888,
     city: {
-      name: 'Amsterdam',
+      name: 'Cologne',
       location: {
         latitude: 52.3909553943508,
         longitude: 4.85309666406198,
