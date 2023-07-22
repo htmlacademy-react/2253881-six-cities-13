@@ -4,15 +4,17 @@ import {
   setFiltredOffers,
   setAllOffers,
   setSortMethod,
+  setLoading,
 } from './actions';
 import { City, SortMethod } from '../consts';
-import { IOffer } from '../mocks/offers-types';
+import { IOffer } from '../types/offers';
 
 interface IStateType {
   city: City;
   filtredOffers: Array<IOffer>;
   offers: Array<IOffer>;
   sortMethod: SortMethod;
+  loadingStatus: boolean;
 }
 
 const initialState: IStateType = {
@@ -20,6 +22,7 @@ const initialState: IStateType = {
   filtredOffers: [],
   offers: [],
   sortMethod: SortMethod.Popular,
+  loadingStatus: false,
 };
 
 export const mainReducer = createReducer(initialState, (builder) => {
@@ -60,5 +63,8 @@ export const mainReducer = createReducer(initialState, (builder) => {
         default:
           break;
       }
+    })
+    .addCase(setLoading, (state, action) => {
+      state.loadingStatus = action.payload;
     });
 });

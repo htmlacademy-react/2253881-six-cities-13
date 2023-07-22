@@ -4,6 +4,10 @@ export const URL_MARKER_DEFAULT = 'img/pin.svg';
 
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 
+export const BASE_BACKEND_URL = 'https://13.design.pages.academy';
+export const REQUEST_TIMEOUT = 5000;
+export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+
 export const TILE_LAYER_ULR =
   'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
@@ -35,4 +39,9 @@ export enum SortMethod {
   LowToHigh = 'Price: low to high',
   HighToLow = 'Price: high to low',
   ByRating = 'Top rated first',
+}
+
+export enum APIRoute {
+  Offers = '/six-cities/offers',
+  Comments = '/six-cities/comments/',
 }

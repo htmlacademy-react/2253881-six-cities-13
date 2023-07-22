@@ -5,23 +5,17 @@ import Map from '../../components/map/map';
 import Header from '../../components/header/header';
 import CitiesNavigation from '../../components/citys-navigation/citys-navigation';
 import SortPlaces from '../../components/sort-places/sort-places';
-import { setAllOffers, setFiltredOffers } from '../../store/actions';
-import { IOffer } from '../../mocks/offers-types';
+import { fetchOffersAction } from '../../store/api-actions';
 
-interface IMainScreenProps {
-  offers: Array<IOffer>;
-}
-
-const MainScreen: React.FC<IMainScreenProps> = ({ offers }) => {
+const MainScreen: React.FC = () => {
   const activeCity = useAppSelector((state) => state.city);
   const filtredOffers = useAppSelector((state) => state.filtredOffers);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setAllOffers(offers));
-    dispatch(setFiltredOffers(activeCity));
-  }, [dispatch, offers, activeCity]);
+    dispatch(fetchOffersAction(activeCity));
+  }, [dispatch, activeCity]);
 
   const [activeOfferId, setActiveOfferId] = useState<string>(
     'not selected from start'
@@ -57,7 +51,7 @@ const MainScreen: React.FC<IMainScreenProps> = ({ offers }) => {
             </section>
             <div className="cities__right-section">
               <section className="cities__map">
-                <Map selectedPointId={activeOfferId} />
+                <Map offers={filtredOffers} selectedPointId={activeOfferId} />
               </section>
             </div>
           </div>

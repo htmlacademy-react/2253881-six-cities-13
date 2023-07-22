@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
-import { useAppSelector } from '../../hooks/redux-hooks';
-import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
+import { Icon, Marker, layerGroup } from 'leaflet';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../consts';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
+import { IOffer } from '../../types/offers';
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
@@ -20,19 +20,20 @@ const currentCustomIcon = new Icon({
 
 interface IMapProps {
   selectedPointId?: string;
+  offers: Array<IOffer>;
 }
 
-const Map: React.FC<IMapProps> = ({ selectedPointId }) => {
-  const filtredOffers = useAppSelector((state) => state.filtredOffers);
+const Map: React.FC<IMapProps> = ({ selectedPointId, offers }) => {
   const mapRef = useRef<null | HTMLDivElement>(null);
-  const map = useMap(mapRef, filtredOffers[0]);
+
+  const map = useMap(mapRef, offers[0]);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
 
-      if (filtredOffers.length) {
-        filtredOffers.forEach((el) => {
+      if (offers.length) {
+        offers.forEach((el) => {
           const marker = new Marker({
             lat: el.city.location.latitude,
             lng: el.city.location.longitude,
@@ -52,7 +53,7 @@ const Map: React.FC<IMapProps> = ({ selectedPointId }) => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, filtredOffers, selectedPointId]);
+  }, [map, offers, selectedPointId]);
 
   return <div className="map-size" ref={mapRef}></div>;
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import Review from '../review/review';
 import { nanoid } from '@reduxjs/toolkit';
-import { IComment } from '../../mocks/comments-types';
+import { IComment } from '../../types/comments';
 
 interface IReviewsListProps {
   comments: Array<IComment>;

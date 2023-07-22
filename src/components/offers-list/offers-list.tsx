@@ -1,6 +1,6 @@
 import React from 'react';
 import OnePlaceCard from '../one-place-card/one-place-card';
-import { IOffer } from '../../mocks/offers-types';
+import { IOffer } from '../../types/offers';
 
 interface IOffersList {
   offers: Array<IOffer>;
