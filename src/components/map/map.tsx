@@ -5,7 +5,6 @@ import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../consts';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
 import { IOffer } from '../../types/offers';
-import { useAppSelector } from '../../hooks/redux-hooks';
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
