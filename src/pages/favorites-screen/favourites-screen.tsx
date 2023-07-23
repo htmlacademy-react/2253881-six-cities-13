@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import Header from '../../components/header/header';
 import FooterFavourite from '../../components/footer-favourite/footer-favourite';
-import { Link } from 'react-router-dom';
-import { IOffer } from '../../types/offers';
 import { Path } from '../../consts';
+import { fetchOffersAction } from '../../store/api-actions';
 
 const FavoritesScreen: React.FC = () => {
+  const offers = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector((state) => state.city);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (offers.length) {
+      dispatch(fetchOffersAction(activeCity));
+    }
+  }, [dispatch, activeCity, offers]);
+
   return (
     <div className="page">
       <Header />

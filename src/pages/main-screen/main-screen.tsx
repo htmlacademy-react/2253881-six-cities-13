@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
+import { RotatingLines } from 'react-loader-spinner';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import Header from '../../components/header/header';
 import CitiesNavigation from '../../components/citys-navigation/citys-navigation';
 import SortPlaces from '../../components/sort-places/sort-places';
 import { fetchOffersAction } from '../../store/api-actions';
+import './main-screen.css';
 
 const MainScreen: React.FC = () => {
   const activeCity = useAppSelector((state) => state.city);
   const filtredOffers = useAppSelector((state) => state.filtredOffers);
+  const isLoading = useAppSelector((state) => state.loadingStatus);
 
   const dispatch = useAppDispatch();
 
@@ -31,31 +34,43 @@ const MainScreen: React.FC = () => {
         <div className="tabs">
           <CitiesNavigation />
         </div>
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">
-                {filtredOffers.length} places to stay in {activeCity}
-              </b>
-              <SortPlaces
-                isSortSelectOpen={isSortSelectOpen}
-                setIsSortSelectOpen={setIsSortSelectOpen}
-              />
-              <div className="cities__places-list places__list tabs__content">
-                <OffersList
-                  offers={filtredOffers}
-                  setActiveOfferId={setActiveOfferId}
+        {!isLoading ? (
+          <div className="cities">
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">
+                  {filtredOffers.length} places to stay in {activeCity}
+                </b>
+                <SortPlaces
+                  isSortSelectOpen={isSortSelectOpen}
+                  setIsSortSelectOpen={setIsSortSelectOpen}
                 />
-              </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map">
-                <Map offers={filtredOffers} selectedPointId={activeOfferId} />
+                <div className="cities__places-list places__list tabs__content">
+                  <OffersList
+                    offers={filtredOffers}
+                    setActiveOfferId={setActiveOfferId}
+                  />
+                </div>
               </section>
+              <div className="cities__right-section">
+                <section className="cities__map">
+                  <Map offers={filtredOffers} selectedPointId={activeOfferId} />
+                </section>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="spinner-container">
+            <RotatingLines
+              strokeColor="grey"
+              strokeWidth="3"
+              animationDuration="0.75"
+              width="150"
+              visible
+            />
+          </div>
+        )}
       </main>
     </div>
   );

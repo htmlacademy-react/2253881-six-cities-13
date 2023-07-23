@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import axios from 'axios';
 import { nanoid } from '@reduxjs/toolkit';
+import { RotatingLines } from 'react-loader-spinner';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/reviews-list';
@@ -25,6 +26,7 @@ const OfferScreen: React.FC = () => {
 
   const offers = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.city);
+  const isLoading = useAppSelector((state) => state.loadingStatus);
 
   useEffect(() => {
     if (!offers.length) {
@@ -46,6 +48,20 @@ const OfferScreen: React.FC = () => {
   }, [id, activeCity, dispatch, offers]);
 
   const ratingLength = `${(100 / 5) * (currentOffer?.rating || 0)}%`;
+
+  if (isLoading) {
+    return (
+      <div className="spinner-container-offer">
+        <RotatingLines
+          strokeColor="grey"
+          strokeWidth="3"
+          animationDuration="0.75"
+          width="150"
+          visible
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="page">

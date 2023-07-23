@@ -2,3 +2,10 @@
   width: 74px;
   height: 74px;
 }
+
+.spinner-container-offer {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  height: 100vh;
+}
