@@ -40,6 +40,7 @@ const OfferScreen: React.FC = () => {
     ];
 
     const requests = urls.map((url) => axios.get(url));
+
     axios.all(requests).then((responses) => {
       setComments(responses[0].data as Array<IComment>);
       setNearbyOffers(responses[1].data as Array<IOffer>);
