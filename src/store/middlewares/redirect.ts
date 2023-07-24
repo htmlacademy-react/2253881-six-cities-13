@@ -5,7 +5,7 @@ import { Reducer } from '../../types/state';
 
 export const redirect: Middleware<unknown, Reducer> =
   () => (next) => (action: PayloadAction<string>) => {
-    if (action.type === 'game/redirectToRoute') {
+    if (action.type === 'redirect/redirectToRoute') {
       browserHistory.push(action.payload);
     }
 

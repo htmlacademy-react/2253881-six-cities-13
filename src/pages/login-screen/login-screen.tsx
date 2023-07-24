@@ -39,7 +39,7 @@ const LoginScreen: React.FC = () => {
     evt.preventDefault();
 
     // eslint-disable-next-line
-    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{1,4})$/;
 
     if (!reg.test(inputValues.email) || inputValues.password.length === 0) {
       return;
