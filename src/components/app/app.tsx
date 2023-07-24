@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import MainScreen from '../../pages/main-screen/main-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favourites-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
@@ -11,6 +12,7 @@ import browserHistory from '../../browser-history';
 import { RotatingLines } from 'react-loader-spinner';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { Path, AuthorizationStatus } from '../../consts';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './app.module.css';
 
 const App: React.FC = () => {
@@ -33,6 +35,7 @@ const App: React.FC = () => {
 
   return (
     <HistoryRouter history={browserHistory}>
+      <ToastContainer />
       <Routes>
         <Route path={Path.Main}>
           <Route index element={<MainScreen />} />
