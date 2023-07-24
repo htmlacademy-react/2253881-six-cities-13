@@ -1,5 +1,5 @@
 import React from 'react';
-import { IComment } from '../../mocks/comments-types';
+import { IComment } from '../../types/comments';
 import './review.css';
 
 const Review: React.FC<IComment> = ({ date, user, comment, rating }) => {

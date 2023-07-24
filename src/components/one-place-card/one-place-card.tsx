@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IOffer } from '../../mocks/offers-types';
+import { IOffer } from '../../types/offers';
 import { Path } from '../../consts';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';

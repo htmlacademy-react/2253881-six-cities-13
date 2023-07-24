@@ -21,3 +21,18 @@ export interface IOffer {
   rating: number;
   previewImage: string;
 }
+
+export interface IModuleForIOffer {
+  description: string;
+  bedrooms: number;
+  goods: [string];
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  images: [string];
+  maxAdults: number;
+}
+
+export type TOneCurrentOffer = Omit<IOffer, 'previewImage'> & IModuleForIOffer;
