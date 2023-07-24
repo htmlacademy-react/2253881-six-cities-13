@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import axios from 'axios';
 import { RotatingLines } from 'react-loader-spinner';
@@ -12,12 +12,12 @@ import { fetchOffersAction } from '../../store/api-actions';
 import { IComment } from '../../types/comments';
 import { IOffer } from '../../types/offers';
 import { TOneCurrentOffer } from '../../types/offers';
-import { BASE_BACKEND_URL, APIRoute } from '../../consts';
+import { BASE_BACKEND_URL, APIRoute, Path } from '../../consts';
 import './offer-screen.css';
 
 const OfferScreen: React.FC = () => {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const [comments, setComments] = useState<Array<IComment>>();
   const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
   const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
@@ -40,12 +40,17 @@ const OfferScreen: React.FC = () => {
 
     const requests = urls.map((url) => axios.get(url));
 
-    axios.all(requests).then((responses) => {
-      setComments(responses[0].data as Array<IComment>);
-      setNearbyOffers(responses[1].data as Array<IOffer>);
-      setCurrentComment(responses[2].data as TOneCurrentOffer);
-    });
-  }, [id, activeCity, dispatch, offers]);
+    axios
+      .all(requests)
+      .then((responses) => {
+        setComments(responses[0].data as Array<IComment>);
+        setNearbyOffers(responses[1].data as Array<IOffer>);
+        setCurrentComment(responses[2].data as TOneCurrentOffer);
+      })
+      .catch(() => {
+        navigate(Path.Main);
+      });
+  }, [id, activeCity, dispatch, offers, navigate]);
 
   const ratingLength = `${(100 / 5) * (currentOffer?.rating || 0)}%`;
 
