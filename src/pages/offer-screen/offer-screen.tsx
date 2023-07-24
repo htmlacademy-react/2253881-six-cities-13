@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import axios from 'axios';
-import { nanoid } from '@reduxjs/toolkit';
 import { RotatingLines } from 'react-loader-spinner';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
@@ -72,7 +71,10 @@ const OfferScreen: React.FC = () => {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {currentOffer?.images.map((el) => (
-                <div key={nanoid()} className="offer__image-wrapper">
+                <div
+                  key={`unique-images-offersCurrent-${el}`}
+                  className="offer__image-wrapper"
+                >
                   <img className="offer__image" src={el} alt="Photo studio" />
                 </div>
               ))}
@@ -124,7 +126,7 @@ const OfferScreen: React.FC = () => {
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
                   {currentOffer?.goods.map((el) => (
-                    <li key={nanoid()} className="offer__inside-item">
+                    <li key={`good-list-${el}`} className="offer__inside-item">
                       {el}
                     </li>
                   ))}

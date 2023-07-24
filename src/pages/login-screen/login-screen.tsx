@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../../components/header/header';
 import { toast } from 'react-toastify';
 import { Navigate } from 'react-router-dom';
+import * as EmailValidator from 'email-validator';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { loginAction } from '../../store/api-actions';
 import { AuthorizationStatus, Path } from '../../consts';
@@ -38,10 +39,10 @@ const LoginScreen: React.FC = () => {
   ) => {
     evt.preventDefault();
 
-    // eslint-disable-next-line
-    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{1,4})$/;
-
-    if (!reg.test(inputValues.email) || inputValues.password.length === 0) {
+    if (
+      !EmailValidator.validate(inputValues.email) ||
+      inputValues.password.length === 0
+    ) {
       return;
     }
 

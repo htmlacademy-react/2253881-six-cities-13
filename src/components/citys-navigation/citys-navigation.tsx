@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import classNames from 'classnames';
-import { nanoid } from '@reduxjs/toolkit';
 import { setCity, setFiltredOffers, setSortMethod } from '../../store/actions';
 import { City, SortMethod } from '../../consts';
 import './citys-navigation.css';
@@ -14,7 +13,7 @@ const CitiesNavigation: React.FC = () => {
     <section className="locations container">
       <ul className="locations__list tabs__list">
         {Object.values(City).map((el) => (
-          <li key={nanoid()} className="locations__item">
+          <li key={`unique-city-${el}`} className="locations__item">
             <button
               className={classNames(
                 'locations__item-link',

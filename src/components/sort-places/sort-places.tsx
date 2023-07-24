@@ -1,5 +1,4 @@
 import React from 'react';
-import { nanoid } from '@reduxjs/toolkit';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setSortMethod } from '../../store/actions';
@@ -40,7 +39,7 @@ const SortPlaces: React.FC<ISortPlaces> = ({
         <ul className="places__options places__options--custom places__options--opened">
           {Object.values(SortMethod).map((el) => (
             <li
-              key={nanoid()}
+              key={`uniue-sort-${el}`}
               className={classNames('places__option', {
                 'places__option--active': el === currentSort,
               })}
