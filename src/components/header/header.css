@@ -2,3 +2,7 @@
   width: 81px;
   height: 41px;
 }
+
+.header__nav-link:hover {
+  cursor: pointer;
+}

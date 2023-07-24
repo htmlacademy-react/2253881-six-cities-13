@@ -1,6 +1,6 @@
 import React from 'react';
 import OffersList from '../offers-list/offers-list';
-import { IOffer } from '../../mocks/offers-types';
+import { IOffer } from '../../types/offers';
 
 interface INearbyPlacesListProps {
   offers: Array<IOffer>;

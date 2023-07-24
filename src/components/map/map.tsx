@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
-import { Icon, Marker, layerGroup } from 'leaflet';
 import useMap from '../../hooks/use-map';
-import { IOffer } from '../../mocks/offers-types';
+import { Icon, Marker, layerGroup } from 'leaflet';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../consts';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
+import { IOffer } from '../../types/offers';
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
@@ -19,21 +19,22 @@ const currentCustomIcon = new Icon({
 });
 
 interface IMapProps {
-  offers: Array<IOffer>;
   selectedPointId?: string;
+  offers: Array<IOffer>;
 }
 
-const Map: React.FC<IMapProps> = ({ offers, selectedPointId }) => {
+const Map: React.FC<IMapProps> = ({ selectedPointId, offers }) => {
   const mapRef = useRef<null | HTMLDivElement>(null);
   const map = useMap(mapRef, offers[0]);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
+
       offers.forEach((el) => {
         const marker = new Marker({
-          lat: el.city.location.latitude,
-          lng: el.city.location.longitude,
+          lat: el.location.latitude,
+          lng: el.location.longitude,
         });
 
         marker
@@ -47,6 +48,10 @@ const Map: React.FC<IMapProps> = ({ offers, selectedPointId }) => {
 
       return () => {
         map.removeLayer(markerLayer);
+        map.flyTo(
+          [offers[0].city.location.latitude, offers[0].city.location.longitude],
+          offers[0].city.location.zoom
+        );
       };
     }
   }, [map, offers, selectedPointId]);

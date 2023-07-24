@@ -1,7 +1,6 @@
 import React from 'react';
 import Review from '../review/review';
-import { nanoid } from '@reduxjs/toolkit';
-import { IComment } from '../../mocks/comments-types';
+import { IComment } from '../../types/comments';
 
 interface IReviewsListProps {
   comments: Array<IComment>;
@@ -15,7 +14,7 @@ const ReviewsList: React.FC<IReviewsListProps> = ({ comments }) => (
     </h2>
     <ul className="reviews__list">
       {comments.map((el) => (
-        <Review key={nanoid()} {...el} />
+        <Review key={`comment-${el.id}`} {...el} />
       ))}
     </ul>
   </>

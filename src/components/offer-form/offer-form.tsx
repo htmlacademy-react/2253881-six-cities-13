@@ -9,6 +9,12 @@ interface IForm {
 const OfferForm: React.FC = () => {
   const [form, setForm] = useState<IForm>({ rating: null, text: '' });
 
+  const onSubmitFormCommentsHandler = (
+    evt: React.FormEvent<HTMLFormElement>
+  ) => {
+    evt.preventDefault();
+  };
+
   const starChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prevState) => ({
       ...prevState,
@@ -25,13 +31,9 @@ const OfferForm: React.FC = () => {
     }));
   };
 
-  const onFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-  };
-
   return (
     <form
-      onSubmit={onFormSubmit}
+      onSubmit={onSubmitFormCommentsHandler}
       className="reviews__form form"
       action="#"
       method="post"
@@ -54,11 +56,7 @@ const OfferForm: React.FC = () => {
           <span className="reviews__star">rating</span> and describe your stay
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button
-          className="reviews__submit form__submit button"
-          type="submit"
-          disabled
-        >
+        <button className="reviews__submit form__submit button" type="submit">
           Submit
         </button>
       </div>

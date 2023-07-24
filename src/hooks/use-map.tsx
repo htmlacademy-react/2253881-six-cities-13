@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import leaflet from 'leaflet';
 import { Map } from 'leaflet';
 import { TILE_LAYER_ULR } from '../consts';
-import { IOffer } from '../mocks/offers-types';
+import { IOffer } from '../types/offers';
 
 export default function useMap(
   mapRef: React.MutableRefObject<HTMLElement | null>,
