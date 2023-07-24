@@ -19,6 +19,12 @@ export const enum Path {
   NotFound = '*',
 }
 
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
 export enum City {
   Paris = 'Paris',
   Cologne = 'Cologne',
@@ -26,12 +32,6 @@ export enum City {
   Amsterdam = 'Amsterdam',
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
-}
-
-export const enum AuthStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
 }
 
 export enum SortMethod {
@@ -44,4 +44,6 @@ export enum SortMethod {
 export enum APIRoute {
   Offers = '/six-cities/offers',
   Comments = '/six-cities/comments/',
+  Login = '/six-cities/login',
+  Logout = '/six-cities/logout',
 }

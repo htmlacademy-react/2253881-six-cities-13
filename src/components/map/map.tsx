@@ -54,4 +54,5 @@ const Map: React.FC<IMapProps> = ({ selectedPointId, offers }) => {
 
   return <div className="map-size" ref={mapRef}></div>;
 };
+
 export default Map;

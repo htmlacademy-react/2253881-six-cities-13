@@ -5,8 +5,9 @@ import {
   setAllOffers,
   setSortMethod,
   setLoading,
+  setAuthorizationStatus,
 } from './actions';
-import { City, SortMethod } from '../consts';
+import { AuthorizationStatus, City, SortMethod } from '../consts';
 import { IOffer } from '../types/offers';
 
 interface IStateType {
@@ -15,6 +16,7 @@ interface IStateType {
   offers: Array<IOffer>;
   sortMethod: SortMethod;
   loadingStatus: boolean;
+  authorizationStatus: AuthorizationStatus;
 }
 
 const initialState: IStateType = {
@@ -23,6 +25,7 @@ const initialState: IStateType = {
   offers: [],
   sortMethod: SortMethod.Popular,
   loadingStatus: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 export const mainReducer = createReducer(initialState, (builder) => {
@@ -66,5 +69,8 @@ export const mainReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setLoading, (state, action) => {
       state.loadingStatus = action.payload;
+    })
+    .addCase(setAuthorizationStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });

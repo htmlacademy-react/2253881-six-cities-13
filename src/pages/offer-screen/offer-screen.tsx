@@ -158,7 +158,7 @@ const OfferScreen: React.FC = () => {
             </div>
           </div>
           <section className="offer__map map">
-            {nearbyOffers && <Map offers={nearbyOffers} />}
+            {nearbyOffers && <Map offers={[...nearbyOffers].splice(0, 3)} />}
           </section>
         </section>
         <div className="container">

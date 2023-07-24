@@ -13,7 +13,7 @@ const FavoritesScreen: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (offers.length) {
+    if (!offers.length) {
       dispatch(fetchOffersAction(activeCity));
     }
   }, [dispatch, activeCity, offers]);
