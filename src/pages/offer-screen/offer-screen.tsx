@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import axios from 'axios';
-import { nanoid } from '@reduxjs/toolkit';
 import { RotatingLines } from 'react-loader-spinner';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
@@ -13,12 +12,12 @@ import { fetchOffersAction } from '../../store/api-actions';
 import { IComment } from '../../types/comments';
 import { IOffer } from '../../types/offers';
 import { TOneCurrentOffer } from '../../types/offers';
-import { BASE_BACKEND_URL, APIRoute } from '../../consts';
+import { BASE_BACKEND_URL, APIRoute, Path } from '../../consts';
 import './offer-screen.css';
 
 const OfferScreen: React.FC = () => {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const [comments, setComments] = useState<Array<IComment>>();
   const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
   const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
@@ -41,12 +40,17 @@ const OfferScreen: React.FC = () => {
 
     const requests = urls.map((url) => axios.get(url));
 
-    axios.all(requests).then((responses) => {
-      setComments(responses[0].data as Array<IComment>);
-      setNearbyOffers(responses[1].data as Array<IOffer>);
-      setCurrentComment(responses[2].data as TOneCurrentOffer);
-    });
-  }, [id, activeCity, dispatch, offers]);
+    axios
+      .all(requests)
+      .then((responses) => {
+        setComments(responses[0].data as Array<IComment>);
+        setNearbyOffers(responses[1].data as Array<IOffer>);
+        setCurrentComment(responses[2].data as TOneCurrentOffer);
+      })
+      .catch(() => {
+        navigate(Path.Main);
+      });
+  }, [id, activeCity, dispatch, offers, navigate]);
 
   const ratingLength = `${(100 / 5) * (currentOffer?.rating || 0)}%`;
 
@@ -72,7 +76,10 @@ const OfferScreen: React.FC = () => {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {currentOffer?.images.map((el) => (
-                <div key={nanoid()} className="offer__image-wrapper">
+                <div
+                  key={`unique-images-offersCurrent-${el}`}
+                  className="offer__image-wrapper"
+                >
                   <img className="offer__image" src={el} alt="Photo studio" />
                 </div>
               ))}
@@ -124,7 +131,7 @@ const OfferScreen: React.FC = () => {
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
                   {currentOffer?.goods.map((el) => (
-                    <li key={nanoid()} className="offer__inside-item">
+                    <li key={`good-list-${el}`} className="offer__inside-item">
                       {el}
                     </li>
                   ))}
@@ -158,7 +165,7 @@ const OfferScreen: React.FC = () => {
             </div>
           </div>
           <section className="offer__map map">
-            {nearbyOffers && <Map offers={nearbyOffers} />}
+            {nearbyOffers && <Map offers={[...nearbyOffers].splice(0, 3)} />}
           </section>
         </section>
         <div className="container">
