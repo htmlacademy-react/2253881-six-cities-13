@@ -57,6 +57,8 @@ const OfferScreen: React.FC = () => {
       });
   }, [id, activeCity, dispatch, offers, navigate]);
 
+  console.log('asdasd');
+
   const ratingLength = `${(100 / 5) * (currentOffer?.rating || 0)}%`;
 
   if (isLoading) {
