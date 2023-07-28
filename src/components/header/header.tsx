@@ -27,7 +27,7 @@ const Header: React.FC = () => {
             <span className="header__nav-link header__nav-link--profile">
               <div className="header__avatar-wrapper user__avatar-wrapper"></div>
               <span
-                onClick={() => navigate(Path.Login)}
+                onClick={() => navigate(`/${Path.Login}`)}
                 className="header__login"
               >
                 Sign in

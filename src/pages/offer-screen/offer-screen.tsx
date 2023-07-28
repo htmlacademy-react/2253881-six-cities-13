@@ -12,7 +12,12 @@ import { fetchOffersAction } from '../../store/api-actions';
 import { IComment } from '../../types/comments';
 import { IOffer } from '../../types/offers';
 import { TOneCurrentOffer } from '../../types/offers';
-import { BASE_BACKEND_URL, APIRoute, Path } from '../../consts';
+import {
+  BASE_BACKEND_URL,
+  APIRoute,
+  Path,
+  AuthorizationStatus,
+} from '../../consts';
 import './offer-screen.css';
 
 const OfferScreen: React.FC = () => {
@@ -22,10 +27,10 @@ const OfferScreen: React.FC = () => {
   const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
   const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
   const { id } = useParams();
-
   const offers = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.city);
   const isLoading = useAppSelector((state) => state.loadingStatus);
+  const isLogged = useAppSelector((state) => state.authorizationStatus);
 
   useEffect(() => {
     if (!offers.length) {
@@ -48,7 +53,7 @@ const OfferScreen: React.FC = () => {
         setCurrentComment(responses[2].data as TOneCurrentOffer);
       })
       .catch(() => {
-        navigate(Path.Main);
+        navigate(`../${Path.NotFound}`);
       });
   }, [id, activeCity, dispatch, offers, navigate]);
 
@@ -67,6 +72,13 @@ const OfferScreen: React.FC = () => {
       </div>
     );
   }
+
+  const isRenderFormComment =
+    isLogged === AuthorizationStatus.Auth ? (
+      <OfferForm setComments={setComments} />
+    ) : (
+      ''
+    );
 
   return (
     <div className="page">
@@ -160,7 +172,7 @@ const OfferScreen: React.FC = () => {
               </div>
               <section className="offer__reviews reviews">
                 {comments && <ReviewsList comments={comments} />}
-                <OfferForm />
+                {isRenderFormComment}
               </section>
             </div>
           </div>
