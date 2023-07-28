@@ -4,11 +4,6 @@ import { useParams } from 'react-router-dom';
 import { IComment } from '../../types/comments';
 import useCommentsForm from '../../hooks/use-comments-form';
 
-export interface IForm {
-  rating: null | number;
-  comment: string;
-}
-
 interface IOfferFormProps {
   setComments: React.Dispatch<React.SetStateAction<IComment[] | undefined>>;
 }
@@ -22,7 +17,7 @@ const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
   });
 
   const starChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prevState: IForm) => ({
+    setForm((prevState) => ({
       ...prevState,
       rating: Number(evt.target.value),
     }));
@@ -31,7 +26,7 @@ const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
   const textAreaChangeHandler = (
     evt: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setForm((prevState: IForm) => ({
+    setForm((prevState) => ({
       ...prevState,
       comment: evt.target.value,
     }));

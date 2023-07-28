@@ -3,7 +3,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getToken } from '../services/token';
 import { IComment } from '../types/comments';
-import { IForm } from '../components/offer-form/offer-form';
 import { BASE_BACKEND_URL, APIRoute } from '../consts';
 
 interface IUseCommentsForm {
@@ -16,6 +15,11 @@ type TuseCommentsFormReturn = [
   React.Dispatch<React.SetStateAction<IForm>>,
   IForm
 ];
+
+interface IForm {
+  rating: null | number;
+  comment: string;
+}
 
 const useCommentsForm = ({
   setComments,
