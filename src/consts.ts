@@ -1,4 +1,4 @@
-export const COUNT_STARS = [1, 2, 3, 4, 5];
+export const COUNT_STARS = [5, 4, 3, 2, 1];
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 

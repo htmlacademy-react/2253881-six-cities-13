@@ -73,12 +73,9 @@ const OfferScreen: React.FC = () => {
     );
   }
 
-  const isRenderFormComment =
-    isLogged === AuthorizationStatus.Auth ? (
-      <OfferForm setComments={setComments} />
-    ) : (
-      ''
-    );
+  const isRenderFormComment = isLogged === AuthorizationStatus.Auth && (
+    <OfferForm setComments={setComments} />
+  );
 
   return (
     <div className="page">

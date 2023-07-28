@@ -7,7 +7,7 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import { RotatingLines } from 'react-loader-spinner';
 import { useAppSelector } from '../../hooks/redux-hooks';
