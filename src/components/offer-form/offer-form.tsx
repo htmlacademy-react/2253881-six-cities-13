@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StarRating from '../star-rating/star-rating';
 import { useParams } from 'react-router-dom';
 import { IComment } from '../../types/comments';
@@ -15,11 +15,14 @@ interface IOfferFormProps {
 
 const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
   const { id } = useParams();
-  const [form, setForm] = useState<IForm>({ rating: null, comment: '' });
-  const sendComment = useCommentsForm({ setComments, setForm, form, id });
+
+  const [sendComment, setForm, form] = useCommentsForm({
+    setComments,
+    id,
+  });
 
   const starChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prevState) => ({
+    setForm((prevState: IForm) => ({
       ...prevState,
       rating: Number(evt.target.value),
     }));
@@ -28,7 +31,7 @@ const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
   const textAreaChangeHandler = (
     evt: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setForm((prevState) => ({
+    setForm((prevState: IForm) => ({
       ...prevState,
       comment: evt.target.value,
     }));

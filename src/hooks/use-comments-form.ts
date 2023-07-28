@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getToken } from '../services/token';
@@ -7,19 +8,21 @@ import { BASE_BACKEND_URL, APIRoute } from '../consts';
 
 interface IUseCommentsForm {
   setComments: React.Dispatch<React.SetStateAction<IComment[] | undefined>>;
-  setForm: React.Dispatch<React.SetStateAction<IForm>>;
-  form: IForm;
   id: string | undefined;
 }
 
+type TuseCommentsFormReturn = [
+  (evt: React.FormEvent<HTMLFormElement>) => void,
+  React.Dispatch<React.SetStateAction<IForm>>,
+  IForm
+];
+
 const useCommentsForm = ({
   setComments,
-  setForm,
-  form,
   id,
-}: IUseCommentsForm) => {
+}: IUseCommentsForm): TuseCommentsFormReturn => {
+  const [form, setForm] = useState<IForm>({ rating: null, comment: '' });
   const token = getToken();
-
   const sendComment = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     axios
@@ -53,7 +56,7 @@ const useCommentsForm = ({
         toast.warn('Проверьте форму на корректность');
       });
   };
-  return sendComment;
+  return [sendComment, setForm, form];
 };
 
 export default useCommentsForm;
