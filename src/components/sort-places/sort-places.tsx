@@ -1,21 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { setSortMethod } from '../../store/actions';
+import { setSortMethod } from '../../store/offers-slice/offers-slice';
+import { getSortMethod } from '../../store/offers-slice/selectors-offers';
 import { SortMethod } from '../../consts';
 import './sort-places.css';
 
-interface ISortPlaces {
-  isSortSelectOpen: boolean;
-  setIsSortSelectOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const SortPlaces: React.FC<ISortPlaces> = ({
-  isSortSelectOpen,
-  setIsSortSelectOpen,
-}) => {
-  const currentSort = useAppSelector((state) => state.sortMethod);
+const SortPlaces: React.FC = () => {
   const dispath = useAppDispatch();
+  const currentSort = useAppSelector(getSortMethod);
+  const [isSortSelectOpen, setIsSortSelectOpen] = useState<boolean>(false);
 
   const onClickLi = (sortMethod: SortMethod) => {
     dispath(setSortMethod(sortMethod));

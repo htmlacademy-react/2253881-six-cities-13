@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { toast } from 'react-toastify';
 import * as EmailValidator from 'email-validator';
-import { loginAction } from '../../store/api-actions';
+import { loginAction } from '../../store/user-slice/async-user-slice';
 
 interface IValuesInputs {
   email: string;

@@ -1,17 +1,16 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
-import { logoutAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { logoutAction } from '../../store/user-slice/async-user-slice';
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { Path, AuthorizationStatus } from '../../consts';
+
 import './header.css';
 
 const Header: React.FC = () => {
+  const isLogged = useAppSelector(getAuthStatus);
   const isLogin = useLocation();
   const dispatch = useAppDispatch();
-
-  const isLogged = useAppSelector(
-    (state) => state.authorizationStatus === AuthorizationStatus.NoAuth
-  );
 
   const isNavToRender = isLogin.pathname === `/${Path.Login}`;
 
@@ -21,7 +20,7 @@ const Header: React.FC = () => {
 
   let contentForNavbar;
 
-  if (isLogged) {
+  if (isLogged === AuthorizationStatus.NoAuth) {
     contentForNavbar = (
       <li className="header__nav-item user">
         <span className="header__nav-link header__nav-link--profile">

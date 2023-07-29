@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import axios from 'axios';
 import { RotatingLines } from 'react-loader-spinner';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import NearbyPlacesList from '../../components/nearby-places-list/nearby-places-list';
-import { fetchOffersAction } from '../../store/api-actions';
+import {
+  getCurrentCity,
+  getLoadingStatus,
+  getAllOffers,
+} from '../../store/offers-slice/selectors-offers';
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
+import { fetchOffersAction } from '../../store/offers-slice/async-offers-actions';
 import { IComment } from '../../types/comments';
 import { IOffer } from '../../types/offers';
 import { TOneCurrentOffer } from '../../types/offers';
@@ -27,12 +33,10 @@ const OfferScreen: React.FC = () => {
   const [comments, setComments] = useState<Array<IComment>>();
   const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
   const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
-  const offers = useAppSelector((state) => state.offers);
-  const activeCity = useAppSelector((state) => state.city);
-  const isLoading = useAppSelector((state) => state.loadingStatus);
-  const isLogged = useAppSelector(
-    (state) => state.authorizationStatus === AuthorizationStatus.Auth
-  );
+  const offers = useAppSelector(getAllOffers);
+  const activeCity = useAppSelector(getCurrentCity);
+  const isLoading = useAppSelector(getLoadingStatus);
+  const isLogged = useAppSelector(getAuthStatus);
 
   useEffect(() => {
     if (!offers.length) {
@@ -74,6 +78,10 @@ const OfferScreen: React.FC = () => {
       </div>
     );
   }
+
+  const isRenderFormComment = isLogged === AuthorizationStatus.Auth && (
+    <OfferForm setComments={setComments} />
+  );
 
   return (
     <div className="page">
@@ -167,7 +175,7 @@ const OfferScreen: React.FC = () => {
               </div>
               <section className="offer__reviews reviews">
                 {comments && <ReviewsList comments={comments} />}
-                {isLogged && <OfferForm setComments={setComments} />}
+                {isRenderFormComment}
               </section>
             </div>
           </div>

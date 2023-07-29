@@ -1,12 +1,17 @@
 import React from 'react';
-import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import classNames from 'classnames';
-import { setCity, setFiltredOffers, setSortMethod } from '../../store/actions';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
+import { getCurrentCity } from '../../store/offers-slice/selectors-offers';
+import {
+  setCity,
+  setFiltredOffers,
+  setSortMethod,
+} from '../../store/offers-slice/offers-slice';
 import { City, SortMethod } from '../../consts';
 import './citys-navigation.css';
 
 const CitiesNavigation: React.FC = () => {
-  const setedCity = useAppSelector((state) => state.city);
+  const setedCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
 
   return (

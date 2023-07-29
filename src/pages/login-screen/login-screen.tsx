@@ -1,16 +1,15 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import LoginForm from '../../components/login-form/login-form';
-import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux-hooks';
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { AuthorizationStatus, Path } from '../../consts';
 
 const LoginScreen: React.FC = () => {
-  const isLogged = useAppSelector(
-    (state) => state.authorizationStatus === AuthorizationStatus.Auth
-  );
+  const isLogged = useAppSelector(getAuthStatus);
 
-  if (isLogged) {
+  if (isLogged === AuthorizationStatus.Auth) {
     return <Navigate to={Path.Main} />;
   }
 

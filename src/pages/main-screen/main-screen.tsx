@@ -5,20 +5,22 @@ import Map from '../../components/map/map';
 import Header from '../../components/header/header';
 import CitiesNavigation from '../../components/citys-navigation/citys-navigation';
 import SortPlaces from '../../components/sort-places/sort-places';
-import { setFiltredOffers } from '../../store/actions';
+import { setFiltredOffers } from '../../store/offers-slice/offers-slice';
+import {
+  getCurrentCity,
+  getFiltredOffers,
+} from '../../store/offers-slice/selectors-offers';
 import './main-screen.css';
 
 const MainScreen: React.FC = () => {
-  const activeCity = useAppSelector((state) => state.city);
-  const filtredOffers = useAppSelector((state) => state.filtredOffers);
-
   const dispatch = useAppDispatch();
+
+  const activeCity = useAppSelector(getCurrentCity);
+  const filtredOffers = useAppSelector(getFiltredOffers);
 
   const [activeOfferId, setActiveOfferId] = useState<string>(
     'not selected from start'
   );
-
-  const [isSortSelectOpen, setIsSortSelectOpen] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(setFiltredOffers(activeCity));
@@ -40,10 +42,7 @@ const MainScreen: React.FC = () => {
               <b className="places__found">
                 {filtredOffers.length} places to stay in {activeCity}
               </b>
-              <SortPlaces
-                isSortSelectOpen={isSortSelectOpen}
-                setIsSortSelectOpen={setIsSortSelectOpen}
-              />
+              <SortPlaces />
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
                   offers={filtredOffers}
