@@ -23,14 +23,16 @@ import './offer-screen.css';
 const OfferScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [comments, setComments] = useState<Array<IComment>>();
   const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
   const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
-  const { id } = useParams();
   const offers = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.city);
   const isLoading = useAppSelector((state) => state.loadingStatus);
-  const isLogged = useAppSelector((state) => state.authorizationStatus);
+  const isLogged = useAppSelector(
+    (state) => state.authorizationStatus === AuthorizationStatus.Auth
+  );
 
   useEffect(() => {
     if (!offers.length) {
@@ -72,10 +74,6 @@ const OfferScreen: React.FC = () => {
       </div>
     );
   }
-
-  const isRenderFormComment = isLogged === AuthorizationStatus.Auth && (
-    <OfferForm setComments={setComments} />
-  );
 
   return (
     <div className="page">
@@ -169,7 +167,7 @@ const OfferScreen: React.FC = () => {
               </div>
               <section className="offer__reviews reviews">
                 {comments && <ReviewsList comments={comments} />}
-                {isRenderFormComment}
+                {isLogged && <OfferForm setComments={setComments} />}
               </section>
             </div>
           </div>

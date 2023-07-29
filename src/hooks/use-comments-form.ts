@@ -38,12 +38,9 @@ const useCommentsForm = ({
         }
       )
       .then(({ data }) => {
-        setComments((prevComments) => {
-          if (prevComments) {
-            return [...prevComments, data];
-          }
-          return [data];
-        });
+        setComments((prevComments) =>
+          prevComments ? [...prevComments, data] : [data]
+        );
 
         setForm({ rating: 0, comment: '' });
       })
