@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { checkAuthAction } from './async-user-slice';
+import { toast } from 'react-toastify';
+import { checkAuthAction, logoutAction, loginAction } from './async-user-slice';
+import { deleteToken, setToken } from '../../services/token';
 import { AuthorizationStatus } from '../../consts';
 
 interface IuserSlice {
@@ -28,6 +30,20 @@ const userSlice = createSlice({
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
+      })
+      .addCase(logoutAction.fulfilled, (state) => {
+        deleteToken();
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
+      })
+      .addCase(logoutAction.rejected, () => {
+        toast.warn('Ошибка разлогирования');
+      })
+      .addCase(loginAction.fulfilled, (state, action) => {
+        setToken(action.payload.token);
+        state.authorizationStatus = AuthorizationStatus.Auth;
+      })
+      .addCase(loginAction.rejected, () => {
+        toast.warn('Ошибка логирования');
       });
   },
 });
