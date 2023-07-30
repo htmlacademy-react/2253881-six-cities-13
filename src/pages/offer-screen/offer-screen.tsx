@@ -1,79 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
 import { RotatingLines } from 'react-loader-spinner';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { useAppSelector } from '../../hooks/redux-hooks';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import NearbyPlacesList from '../../components/nearby-places-list/nearby-places-list';
-import {
-  getCurrentCity,
-  getLoadingStatus,
-  getAllOffers,
-} from '../../store/offers-slice/selectors-offers';
-import { getRandomElemsFromArr } from '../../services/api';
+import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
-import { fetchOffersAction } from '../../store/offers-slice/async-offers-actions';
-import { IComment } from '../../types/comments';
-import { IOffer } from '../../types/offers';
-import { TOneCurrentOffer } from '../../types/offers';
-import {
-  BASE_BACKEND_URL,
-  APIRoute,
-  Path,
-  AuthorizationStatus,
-} from '../../consts';
+import { AuthorizationStatus } from '../../consts';
 import './offer-screen.css';
 
+import useOffersRequests from '../../hooks/use-offers-requests';
+
 const OfferScreen: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [comments, setComments] = useState<Array<IComment>>();
-  const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
-  const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
-  const offers = useAppSelector(getAllOffers);
-  const activeCity = useAppSelector(getCurrentCity);
   const isLoading = useAppSelector(getLoadingStatus);
   const isLogged = useAppSelector(getAuthStatus);
 
-  useEffect(() => {
-    if (!offers.length) {
-      dispatch(fetchOffersAction(activeCity));
-    }
-
-    const urls = [
-      `${BASE_BACKEND_URL + APIRoute.Comments}${id || ''}`,
-      `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}/nearby`,
-      `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}`,
-    ];
-
-    const requests = urls.map((url) => axios.get(url));
-
-    axios
-      .all(requests)
-      .then((responses) => {
-        const currentOfferForNerbyMap = offers.find((el) => el.id === id);
-
-        const nearByOffersSliced = getRandomElemsFromArr(
-          responses[1].data as Array<IOffer>,
-          3
-        );
-        const nearbyOffersToSave = [
-          ...nearByOffersSliced,
-          currentOfferForNerbyMap,
-        ];
-
-        setComments(responses[0].data as Array<IComment>);
-        setNearbyOffers(nearbyOffersToSave as Array<IOffer>);
-        setCurrentComment(responses[2].data as TOneCurrentOffer);
-      })
-      .catch(() => {
-        navigate(`../${Path.NotFound}`);
-      });
-  }, [id, activeCity, dispatch, offers, navigate]);
+  const { comments, nearbyOffers, currentOffer, setComments } =
+    useOffersRequests();
 
   const ratingLength = `${(100 / 5) * Math.round(currentOffer?.rating || 0)}%`;
 
