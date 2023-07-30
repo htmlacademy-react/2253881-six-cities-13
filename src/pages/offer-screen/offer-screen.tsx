@@ -13,6 +13,7 @@ import {
   getLoadingStatus,
   getAllOffers,
 } from '../../store/offers-slice/selectors-offers';
+import { getRandomElemsFromArr } from '../../services/api';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { fetchOffersAction } from '../../store/offers-slice/async-offers-actions';
 import { IComment } from '../../types/comments';
@@ -54,8 +55,19 @@ const OfferScreen: React.FC = () => {
     axios
       .all(requests)
       .then((responses) => {
+        const currentOfferForNerbyMap = offers.find((el) => el.id === id);
+
+        const nearByOffersSliced = getRandomElemsFromArr(
+          responses[1].data as Array<IOffer>,
+          3
+        );
+        const nearbyOffersToSave = [
+          ...nearByOffersSliced,
+          currentOfferForNerbyMap,
+        ];
+
         setComments(responses[0].data as Array<IComment>);
-        setNearbyOffers(responses[1].data as Array<IOffer>);
+        setNearbyOffers(nearbyOffersToSave as Array<IOffer>);
         setCurrentComment(responses[2].data as TOneCurrentOffer);
       })
       .catch(() => {
@@ -63,7 +75,7 @@ const OfferScreen: React.FC = () => {
       });
   }, [id, activeCity, dispatch, offers, navigate]);
 
-  const ratingLength = `${(100 / 5) * (currentOffer?.rating || 0)}%`;
+  const ratingLength = `${(100 / 5) * Math.round(currentOffer?.rating || 0)}%`;
 
   if (isLoading) {
     return (
@@ -180,7 +192,7 @@ const OfferScreen: React.FC = () => {
             </div>
           </div>
           <section className="offer__map map">
-            {nearbyOffers && <Map offers={[...nearbyOffers].splice(0, 3)} />}
+            {nearbyOffers && <Map offers={nearbyOffers} />}
           </section>
         </section>
         <div className="container">

@@ -26,7 +26,7 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
     setActiveOfferId?.(id);
   };
 
-  const ratingLength = `${(100 / 5) * rating}%`;
+  const ratingLength = `${(100 / 5) * Math.round(rating)}%`;
 
   // prettier-ignore
 

@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 
 import { getToken } from './token';
 import { BASE_BACKEND_URL, REQUEST_TIMEOUT } from '../consts';
+import { IOffer } from '../types/offers';
 
 interface IDetailMessageType {
   type: string;
@@ -54,4 +55,18 @@ export const createApi = (): AxiosInstance => {
   );
 
   return api;
+};
+
+export const getRandomElemsFromArr = (arr: Array<IOffer>, count: number) => {
+  const result: Array<IOffer> = [];
+
+  while (result.length < count) {
+    const current = arr[Math.floor(Math.random() * arr.length)];
+
+    if (!result.some((el) => el.id === current.id)) {
+      result.push(current);
+    }
+  }
+
+  return result;
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import { getCurrentCity } from '../../store/offers-slice/selectors-offers';
@@ -13,6 +13,10 @@ import './citys-navigation.css';
 const CitiesNavigation: React.FC = () => {
   const setedCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setFiltredOffers(setedCity));
+  }, [dispatch, setedCity]);
 
   return (
     <section className="locations container">

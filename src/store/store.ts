@@ -1,11 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { createApi } from '../services/api';
+import { redirect } from './middlewares/redirect';
 import userSlice from './user-slice/user-slice';
 import offersSlice from './offers-slice/offers-slice';
 
 const api = createApi();
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   offers: offersSlice,
   user: userSlice,
 });
@@ -13,5 +14,5 @@ const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: { extraArgument: api } }),
+    getDefaultMiddleware({ thunk: { extraArgument: api } }).concat(redirect),
 });
