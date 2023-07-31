@@ -15,31 +15,33 @@ const CitiesNavigation: React.FC = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <section className="locations container">
-      <ul className="locations__list tabs__list">
-        {Object.values(City).map((el) => (
-          <li key={`unique-city-${el}`} className="locations__item">
-            <button
-              className={classNames(
-                'locations__item-link',
-                'tabs__item',
-                'active-button',
-                {
-                  'tabs__item--active': setedCity === el,
-                }
-              )}
-              onClick={() => {
-                dispatch(setCity(el));
-                dispatch(setFiltredOffers(el));
-                dispatch(setSortMethod(SortMethod.Popular));
-              }}
-            >
-              <span>{el}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <div className="tabs">
+      <section className="locations container">
+        <ul className="locations__list tabs__list">
+          {Object.values(City).map((el) => (
+            <li key={`unique-city-${el}`} className="locations__item">
+              <button
+                className={classNames(
+                  'locations__item-link',
+                  'tabs__item',
+                  'active-button',
+                  {
+                    'tabs__item--active': setedCity === el,
+                  }
+                )}
+                onClick={() => {
+                  dispatch(setCity(el));
+                  dispatch(setFiltredOffers(el));
+                  dispatch(setSortMethod(SortMethod.Popular));
+                }}
+              >
+                <span>{el}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
   );
 };
 
