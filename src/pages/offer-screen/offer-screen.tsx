@@ -1,6 +1,7 @@
 import React from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import { useAppSelector } from '../../hooks/redux-hooks';
+import useOffersRequests from '../../hooks/use-offers-requests';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/reviews-list';
@@ -10,8 +11,6 @@ import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { AuthorizationStatus } from '../../consts';
 import './offer-screen.css';
-
-import useOffersRequests from '../../hooks/use-offers-requests';
 
 const OfferScreen: React.FC = () => {
   const isLoading = useAppSelector(getLoadingStatus);

@@ -46,12 +46,13 @@ const Map: React.FC<IMapProps> = ({ selectedPointId, offers }) => {
           .addTo(markerLayer);
       });
 
+      map.flyTo(
+        [offers[0].city.location.latitude, offers[0].city.location.longitude],
+        offers[0].city.location.zoom
+      );
+
       return () => {
         map.removeLayer(markerLayer);
-        map.flyTo(
-          [offers[0].city.location.latitude, offers[0].city.location.longitude],
-          offers[0].city.location.zoom
-        );
       };
     }
   }, [map, offers, selectedPointId]);
