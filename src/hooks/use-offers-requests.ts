@@ -13,7 +13,7 @@ import { IComment } from '../types/comments';
 const useOffersRequests = () => {
   const [comments, setComments] = useState<Array<IComment>>();
   const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
-  const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
+  const [currentOffer, setCurrentOffer] = useState<TOneCurrentOffer>();
 
   const offers = useAppSelector(getAllOffers);
   const activeCity = useAppSelector(getCurrentCity);
@@ -47,10 +47,9 @@ const useOffersRequests = () => {
           ...nearByOffersSliced,
           currentOfferForNerbyMap,
         ];
-
         setComments(responses[0].data as Array<IComment>);
         setNearbyOffers(nearbyOffersToSave as Array<IOffer>);
-        setCurrentComment(responses[2].data as TOneCurrentOffer);
+        setCurrentOffer(responses[2].data as TOneCurrentOffer);
       })
       .catch(() => {
         navigate(`../${Path.NotFound}`);
@@ -62,6 +61,7 @@ const useOffersRequests = () => {
     nearbyOffers,
     currentOffer,
     setComments,
+    setCurrentOffer,
   };
 };
 

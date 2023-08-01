@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/header/header';
+
 import MainPageContent from '../../components/main-page-content/main-page-content';
 import './main-screen.css';
 
