@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../../components/header/header';
 import FooterFavourite from '../../components/footer-favourite/footer-favourite';
-import FavoriteList from '../../components/favourite-list/favourite-list';
+import FavoriteList from '../../components/favourite-list/favorite-list';
 
 const FavoritesScreen: React.FC = () => (
   <div className="page">
