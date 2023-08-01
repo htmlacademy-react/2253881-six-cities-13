@@ -46,9 +46,12 @@ const Header: React.FC = () => {
             to={Path.Main}
           >
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-            <span className="header__user-name user__name">
+            <Link
+              to={`/${Path.Favorite}`}
+              className="header__user-name user__name"
+            >
               Oliver.conner@gmail.com
-            </span>
+            </Link>
             <span className="header__favorite-count">{favCount}</span>
           </Link>
         </li>

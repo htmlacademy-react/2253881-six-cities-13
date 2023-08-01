@@ -28,7 +28,7 @@ export const changeFavouriteStatusOffer = createAsyncThunk<
 
     try {
       const res = await axios.post<IOffer>(
-        `${BASE_BACKEND_URL}${APIRoute.Favorite}${idOffer}/${
+        `${BASE_BACKEND_URL}${APIRoute.Favorite}/${idOffer}/${
           isFavorite ? 0 : 1
         }`,
         {},
