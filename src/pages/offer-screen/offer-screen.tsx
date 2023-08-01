@@ -1,63 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import axios from 'axios';
+import React from 'react';
 import { RotatingLines } from 'react-loader-spinner';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import useOffersRequests from '../../hooks/use-offers-requests';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import NearbyPlacesList from '../../components/nearby-places-list/nearby-places-list';
-import { fetchOffersAction } from '../../store/api-actions';
-import { IComment } from '../../types/comments';
-import { IOffer } from '../../types/offers';
-import { TOneCurrentOffer } from '../../types/offers';
-import {
-  BASE_BACKEND_URL,
-  APIRoute,
-  Path,
-  AuthorizationStatus,
-} from '../../consts';
+import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
+import { AuthorizationStatus } from '../../consts';
 import './offer-screen.css';
 
 const OfferScreen: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [comments, setComments] = useState<Array<IComment>>();
-  const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
-  const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
-  const { id } = useParams();
-  const offers = useAppSelector((state) => state.offers);
-  const activeCity = useAppSelector((state) => state.city);
-  const isLoading = useAppSelector((state) => state.loadingStatus);
-  const isLogged = useAppSelector((state) => state.authorizationStatus);
+  const isLoading = useAppSelector(getLoadingStatus);
+  const isLogged = useAppSelector(getAuthStatus);
 
-  useEffect(() => {
-    if (!offers.length) {
-      dispatch(fetchOffersAction(activeCity));
-    }
+  const { comments, nearbyOffers, currentOffer, setComments } =
+    useOffersRequests();
 
-    const urls = [
-      `${BASE_BACKEND_URL + APIRoute.Comments}${id || ''}`,
-      `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}/nearby`,
-      `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}`,
-    ];
-
-    const requests = urls.map((url) => axios.get(url));
-
-    axios
-      .all(requests)
-      .then((responses) => {
-        setComments(responses[0].data as Array<IComment>);
-        setNearbyOffers(responses[1].data as Array<IOffer>);
-        setCurrentComment(responses[2].data as TOneCurrentOffer);
-      })
-      .catch(() => {
-        navigate(`../${Path.NotFound}`);
-      });
-  }, [id, activeCity, dispatch, offers, navigate]);
-
-  const ratingLength = `${(100 / 5) * (currentOffer?.rating || 0)}%`;
+  const ratingLength = `${(100 / 5) * Math.round(currentOffer?.rating || 0)}%`;
 
   if (isLoading) {
     return (
@@ -73,12 +35,9 @@ const OfferScreen: React.FC = () => {
     );
   }
 
-  const isRenderFormComment =
-    isLogged === AuthorizationStatus.Auth ? (
-      <OfferForm setComments={setComments} />
-    ) : (
-      ''
-    );
+  const isRenderFormComment = isLogged === AuthorizationStatus.Auth && (
+    <OfferForm setComments={setComments} />
+  );
 
   return (
     <div className="page">
@@ -177,7 +136,7 @@ const OfferScreen: React.FC = () => {
             </div>
           </div>
           <section className="offer__map map">
-            {nearbyOffers && <Map offers={[...nearbyOffers].splice(0, 3)} />}
+            {nearbyOffers && <Map offers={nearbyOffers} />}
           </section>
         </section>
         <div className="container">

@@ -1,23 +1,25 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { RotatingLines } from 'react-loader-spinner';
 import MainScreen from '../../pages/main-screen/main-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favourites-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
-import { RotatingLines } from 'react-loader-spinner';
 import { useAppSelector } from '../../hooks/redux-hooks';
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
+import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
 import { Path, AuthorizationStatus } from '../../consts';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './app.module.css';
 
 const App: React.FC = () => {
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const isLoading = useAppSelector((state) => state.loadingStatus);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isLoading = useAppSelector(getLoadingStatus);
 
   if (isLoading || authStatus === AuthorizationStatus.Unknown) {
     return (

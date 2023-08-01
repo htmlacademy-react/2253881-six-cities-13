@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../types/offers';
 import { Path } from '../../consts';
@@ -22,14 +22,11 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
 }) => {
   const isOffer = useLocation().pathname.includes(Path.Offer);
 
-  const [isHover, setHover] = useState<boolean>(false);
-
   const mouseStatusEditHandler = () => {
-    setHover(!isHover);
     setActiveOfferId?.(id);
   };
 
-  const ratingLength = `${(100 / 5) * rating}%`;
+  const ratingLength = `${(100 / 5) * Math.round(rating)}%`;
 
   // prettier-ignore
 
