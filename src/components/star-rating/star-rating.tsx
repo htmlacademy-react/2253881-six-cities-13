@@ -26,7 +26,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
         <label
           htmlFor={`${el}-stars`}
           className="reviews__rating-label form__rating-label"
-          title="perfect"
+          title=""
         >
           <svg className="form__star-image starRating">
             <use xlinkHref="#icon-star"></use>

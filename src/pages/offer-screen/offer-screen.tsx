@@ -163,7 +163,9 @@ const OfferScreen: React.FC = () => {
             </div>
           </div>
           <section className="offer__map map">
-            {nearbyOffers && <Map offers={nearbyOffers} />}
+            {nearbyOffers && (
+              <Map offers={nearbyOffers} selectedPointId={currentOffer?.id} />
+            )}
           </section>
         </section>
         <div className="container">
