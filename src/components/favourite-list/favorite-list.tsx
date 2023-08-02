@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { RotatingLines } from 'react-loader-spinner';
@@ -12,6 +12,7 @@ import styles from './favourite-list.module.css';
 const FavoriteList: React.FC = () => {
   const [favOffers, setFavOffers] = useState<Array<IOffer>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const countRenderRef = useRef<number>(0);
 
   const downloadFavOffers = useCallback(async () => {
     const token = getToken();
@@ -26,6 +27,7 @@ const FavoriteList: React.FC = () => {
 
     setFavOffers(data);
     setIsLoading(false);
+    countRenderRef.current = countRenderRef.current + 1;
   }, []);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ const FavoriteList: React.FC = () => {
 
   const cityList = Array.from(new Set(favOffers.map((el) => el.city.name)));
 
-  if (favOffers.length === 0 && !isLoading) {
+  if (favOffers.length === 0 && !isLoading && countRenderRef.current > 0) {
     return <EmptyFavoritesList />;
   }
 
