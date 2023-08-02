@@ -4,6 +4,7 @@ import { AppDispatch, State } from '../../types/state';
 import { redirectToRoute } from '../actions';
 import { APIRoute, Path } from '../../consts';
 import { IUserLogin, IUserResponseLogin } from '../../types/user';
+import { fetchOffersAction } from '../offers-slice/async-offers-actions';
 
 export const loginAction = createAsyncThunk<
   IUserResponseLogin,
@@ -13,13 +14,13 @@ export const loginAction = createAsyncThunk<
   'user/login',
   async (
     { email, password },
-    { dispatch, extra: api }
+    { dispatch, extra: api, getState }
   ): Promise<IUserResponseLogin> => {
     const { data } = await api.post<IUserResponseLogin>(APIRoute.Login, {
       email,
       password,
     });
-
+    dispatch(fetchOffersAction(getState().offers.city));
     dispatch(redirectToRoute(Path.Main));
 
     return data;

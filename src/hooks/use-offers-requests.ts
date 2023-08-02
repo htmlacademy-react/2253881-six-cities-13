@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getToken } from '../services/token';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './redux-hooks';
 import { getCurrentCity } from '../store/offers-slice/selectors-offers';
@@ -31,8 +32,10 @@ const useOffersRequests = () => {
       `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}/nearby`,
       `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}`,
     ];
-
-    const requests = urls.map((url) => axios.get(url));
+    const token = getToken();
+    const requests = urls.map((url) =>
+      axios.get(url, { headers: { 'x-token': token } })
+    );
 
     axios
       .all(requests)
