@@ -4,9 +4,13 @@ import './star-rating.css';
 
 interface IStarRatingProps {
   starChangeHandler: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+  startValue: number | null;
 }
 
-const StarRating: React.FC<IStarRatingProps> = ({ starChangeHandler }) => (
+const StarRating: React.FC<IStarRatingProps> = ({
+  starChangeHandler,
+  startValue,
+}) => (
   <div className="reviews__rating-form form__rating">
     {COUNT_STARS.map((el) => (
       <React.Fragment key={`star-number-${el}`}>
@@ -17,6 +21,7 @@ const StarRating: React.FC<IStarRatingProps> = ({ starChangeHandler }) => (
           value={el}
           id={`${el}-stars`}
           type="radio"
+          checked={startValue === el}
         />
         <label
           htmlFor={`${el}-stars`}

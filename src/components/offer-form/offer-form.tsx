@@ -42,7 +42,10 @@ const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
-      <StarRating starChangeHandler={starChangeHandler} />
+      <StarRating
+        starChangeHandler={starChangeHandler}
+        startValue={form.rating}
+      />
       <textarea
         onChange={textAreaChangeHandler}
         value={form.comment}
