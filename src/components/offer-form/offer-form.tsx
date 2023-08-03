@@ -1,43 +1,72 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import StarRating from '../star-rating/star-rating';
 import { useParams } from 'react-router-dom';
-import { IComment } from '../../types/comments';
-import useCommentsForm from '../../hooks/use-comments-form';
+import { toast } from 'react-toastify';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { IForm } from '../../types/common';
+import { sendComment } from '../../store/comments-slice/async-comments';
 
-interface IOfferFormProps {
-  setComments: React.Dispatch<React.SetStateAction<IComment[] | undefined>>;
-}
-
-const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
+const OfferForm: React.FC = () => {
   const { id } = useParams();
 
-  const [sendComment, setForm, form] = useCommentsForm({
-    setComments,
-    id,
-  });
+  const dispatch = useAppDispatch();
+  const [form, setForm] = useState<IForm>({ rating: null, comment: '' });
 
-  const starChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prevState) => ({
-      ...prevState,
-      rating: Number(evt.target.value),
-    }));
-  };
+  const sendCommentOnSubmit = useCallback(
+    (evt: React.FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
 
-  const textAreaChangeHandler = (
-    evt: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setForm((prevState) => ({
-      ...prevState,
-      comment: evt.target.value,
-    }));
-  };
+      if (form.comment.length < 50 && form.comment.length > 0) {
+        toast.warn('Комментарий должен содержать не менее 50ти символов');
+        return;
+      }
+
+      if (form.comment.length > 300) {
+        toast.warn('Комментарий должен содержать не более 300т символов');
+        return;
+      }
+
+      if (!form.rating) {
+        toast.warn('Укажите рейтинг');
+        return;
+      }
+
+      const value = { id: id as string, form };
+
+      dispatch(sendComment(value))
+        .unwrap()
+        .then(() => setForm({ rating: 0, comment: '' }))
+        .catch(() => toast.warn('Проверьте форму на корректность'));
+    },
+    [dispatch, form, id]
+  );
+
+  const starChangeHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      setForm((prevState) => ({
+        ...prevState,
+        rating: Number(evt.target.value),
+      }));
+    },
+    []
+  );
+
+  const textAreaChangeHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setForm((prevState) => ({
+        ...prevState,
+        comment: evt.target.value,
+      }));
+    },
+    []
+  );
 
   return (
     <form
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={sendComment}
+      onSubmit={sendCommentOnSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review

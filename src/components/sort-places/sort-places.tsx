@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setSortMethod } from '../../store/offers-slice/offers-slice';
@@ -7,14 +7,17 @@ import { SortMethod } from '../../consts';
 import './sort-places.css';
 
 const SortPlaces: React.FC = () => {
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
   const currentSort = useAppSelector(getSortMethod);
   const [isSortSelectOpen, setIsSortSelectOpen] = useState<boolean>(false);
 
-  const onClickLi = (sortMethod: SortMethod) => {
-    dispath(setSortMethod(sortMethod));
-    setIsSortSelectOpen((isOpened) => !isOpened);
-  };
+  const onClickLi = useCallback(
+    (sortMethod: SortMethod) => () => {
+      dispatch(setSortMethod(sortMethod));
+      setIsSortSelectOpen((isOpened) => !isOpened);
+    },
+    [dispatch]
+  );
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -38,7 +41,7 @@ const SortPlaces: React.FC = () => {
                 'places__option--active': el === currentSort,
               })}
               tabIndex={0}
-              onClick={() => onClickLi(el)}
+              onClick={onClickLi(el)}
             >
               {el}
             </li>

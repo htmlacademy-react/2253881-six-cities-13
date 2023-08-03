@@ -14,8 +14,8 @@ import { useAppSelector } from '../../hooks/redux-hooks';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
 import { Path, AuthorizationStatus } from '../../consts';
-import 'react-toastify/dist/ReactToastify.css';
 import styles from './app.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const authStatus = useAppSelector(getAuthStatus);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import { getCurrentCity } from '../../store/offers-slice/selectors-offers';
@@ -13,6 +13,15 @@ import './citys-navigation.css';
 const CitiesNavigation: React.FC = () => {
   const setedCity = useAppSelector(getCurrentCity);
   const dispatch = useAppDispatch();
+
+  const onClickCityButtonNav = useCallback(
+    (el: City) => () => {
+      dispatch(setCity(el));
+      dispatch(setFiltredOffers(el));
+      dispatch(setSortMethod(SortMethod.Popular));
+    },
+    [dispatch]
+  );
 
   return (
     <div className="tabs">
@@ -29,11 +38,7 @@ const CitiesNavigation: React.FC = () => {
                     'tabs__item--active': setedCity === el,
                   }
                 )}
-                onClick={() => {
-                  dispatch(setCity(el));
-                  dispatch(setFiltredOffers(el));
-                  dispatch(setSortMethod(SortMethod.Popular));
-                }}
+                onClick={onClickCityButtonNav(el)}
               >
                 <span>{el}</span>
               </button>

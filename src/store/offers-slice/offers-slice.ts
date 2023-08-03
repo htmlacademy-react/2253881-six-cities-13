@@ -2,9 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchOffersAction,
   changeFavouriteStatusOffer,
+  fetchFavOffers,
 } from './async-offers-actions';
 import { City, SortMethod } from '../../consts';
-import { IOffer } from '../../types/offers';
+import { IOffer, TOneCurrentOffer } from '../../types/offers';
 import { toast } from 'react-toastify';
 
 interface IOffersSlice {
@@ -13,6 +14,9 @@ interface IOffersSlice {
   offers: Array<IOffer>;
   sortMethod: SortMethod;
   loadingStatus: boolean;
+  nearbyOffers: Array<IOffer>;
+  favOfffers: Array<IOffer>;
+  currentOffer: TOneCurrentOffer | null;
 }
 
 const initialState: IOffersSlice = {
@@ -21,6 +25,9 @@ const initialState: IOffersSlice = {
   offers: [],
   sortMethod: SortMethod.Popular,
   loadingStatus: false,
+  nearbyOffers: [],
+  favOfffers: [],
+  currentOffer: null,
 };
 
 const offersSlice = createSlice({
@@ -40,6 +47,9 @@ const offersSlice = createSlice({
     },
     setAllOffers: (state, action: PayloadAction<Array<IOffer>>) => {
       state.offers = [...action.payload];
+    },
+    setFavOffers: (state, action: PayloadAction<Array<IOffer>>) => {
+      state.favOfffers = action.payload;
     },
     setSortMethod: (state, action: PayloadAction<SortMethod>) => {
       state.sortMethod = action.payload;
@@ -66,6 +76,12 @@ const offersSlice = createSlice({
         default:
           break;
       }
+    },
+    setCurrentOffer: (state, action: PayloadAction<TOneCurrentOffer>) => {
+      state.currentOffer = action.payload;
+    },
+    setNearbyOffers: (state, action: PayloadAction<Array<IOffer>>) => {
+      state.nearbyOffers = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -101,6 +117,9 @@ const offersSlice = createSlice({
       })
       .addCase(changeFavouriteStatusOffer.rejected, (_, action) => {
         toast.warn(action.error.message);
+      })
+      .addCase(fetchFavOffers.fulfilled, (state, action) => {
+        state.favOfffers = [...action.payload];
       });
   },
 });
@@ -112,5 +131,8 @@ export const {
   setCity,
   setAllOffers,
   setFiltredOffers,
+  setFavOffers,
   setSortMethod,
+  setCurrentOffer,
+  setNearbyOffers,
 } = offersSlice.actions;

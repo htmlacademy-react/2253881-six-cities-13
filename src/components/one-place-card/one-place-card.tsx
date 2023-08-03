@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../types/offers';
 import { AuthorizationStatus, Path } from '../../consts';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { changeFavouriteStatusOffer } from '../../store/offers-slice/async-offers-actions';
+import {
+  changeFavouriteStatusOffer,
+  fetchFavOffers,
+} from '../../store/offers-slice/async-offers-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import './one-place-card.css';
@@ -28,15 +31,16 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
   const authStatus = useAppSelector(getAuthStatus);
   const isOffer = useLocation().pathname.includes(Path.Offer);
 
-  const mouseStatusEditHandler = () => {
+  const mouseStatusEditHandler = useCallback(() => {
     setActiveOfferId?.(id);
-  };
+  }, [setActiveOfferId, id]);
 
   const ratingLength = `${(100 / 5) * Math.round(rating)}%`;
 
-  const changeFavouriteStatus = () => {
+  const changeFavouriteStatus = useCallback(() => {
     dispatch(changeFavouriteStatusOffer({ idOffer: id, isFavorite }));
-  };
+    dispatch(fetchFavOffers());
+  }, [dispatch, id, isFavorite]);
 
   // prettier-ignore
 
@@ -63,7 +67,7 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
           {'near-places__image-wrapper': !isOffer}
         )}
       >
-        <Link to='#'>
+        <Link to={`../${Path.Offer}/${id}`}>
           <img
             className="place-card__image img-card"
             src={previewImage}

@@ -2,9 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../../types/state';
 import { redirectToRoute } from '../actions';
-import { APIRoute, Path } from '../../consts';
+import { APIRoute, Path, SortMethod } from '../../consts';
 import { IUserLogin, IUserResponseLogin } from '../../types/user';
-import { fetchOffersAction } from '../offers-slice/async-offers-actions';
+import {
+  fetchFavOffers,
+  fetchOffersAction,
+} from '../offers-slice/async-offers-actions';
+import { setSortMethod } from '../offers-slice/offers-slice';
+import { setToken } from '../../services/token';
 
 export const loginAction = createAsyncThunk<
   IUserResponseLogin,
@@ -20,9 +25,12 @@ export const loginAction = createAsyncThunk<
       email,
       password,
     });
-    dispatch(fetchOffersAction(getState().offers.city));
-    dispatch(redirectToRoute(Path.Main));
 
+    setToken(data.token);
+    dispatch(fetchOffersAction(getState().offers.city));
+    dispatch(setSortMethod(SortMethod.Popular));
+    dispatch(fetchFavOffers());
+    dispatch(redirectToRoute(Path.Main));
     return data;
   }
 );
