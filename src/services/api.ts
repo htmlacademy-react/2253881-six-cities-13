@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 
 import { getToken } from './token';
 import { BASE_BACKEND_URL, REQUEST_TIMEOUT } from '../consts';
-import { IOffer } from '../types/offers';
 
 interface IDetailMessageType {
   type: string;
