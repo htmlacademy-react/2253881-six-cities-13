@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchOffersAction } from './async-offers-actions';
+import {
+  fetchOffersAction,
+  changeFavouriteStatusOffer,
+} from './async-offers-actions';
 import { City, SortMethod } from '../../consts';
 import { IOffer } from '../../types/offers';
+import { toast } from 'react-toastify';
 
 interface IOffersSlice {
   city: City;
@@ -77,6 +81,26 @@ const offersSlice = createSlice({
         state.city = City.Paris;
         state.filtredOffers = [];
         state.offers = [];
+      })
+      .addCase(changeFavouriteStatusOffer.fulfilled, (state, action) => {
+        state.filtredOffers = state.filtredOffers.map((el) => {
+          if (el.id === action.payload.id) {
+            el.isFavorite = !el.isFavorite;
+            return el;
+          }
+          return el;
+        });
+
+        state.offers = state.offers.map((el) => {
+          if (el.id === action.payload.id) {
+            el.isFavorite = !el.isFavorite;
+            return el;
+          }
+          return el;
+        });
+      })
+      .addCase(changeFavouriteStatusOffer.rejected, (_, action) => {
+        toast.warn(action.error.message);
       });
   },
 });

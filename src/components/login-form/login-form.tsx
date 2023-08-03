@@ -30,15 +30,20 @@ const LoginForm: React.FC = () => {
   ) => {
     evt.preventDefault();
 
-    if (
-      !EmailValidator.validate(inputValues.email) ||
-      inputValues.password.length === 0
-    ) {
+    const regForPass = /^[a-z]+\d+|^\d+[a-z]+/gi;
+
+    if (!EmailValidator.validate(inputValues.email)) {
+      toast.warn('Проверьте email на корректность');
       return;
     }
 
-    if (inputValues.password.includes(' ')) {
-      toast.warn('Удалите пробелы из пароля');
+    if (
+      inputValues.password.includes(' ') ||
+      !inputValues.password.match(regForPass) ||
+      inputValues.password.match(/\W/g) ||
+      inputValues.password.length === 0
+    ) {
+      toast.warn('Проверьте пароль на корректность');
       return;
     }
 

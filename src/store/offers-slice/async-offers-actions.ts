@@ -1,9 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
+import { redirectToRoute } from '../actions';
 import { AppDispatch, State } from '../../types/state';
 import { setAllOffers, setFiltredOffers } from './offers-slice';
-import { APIRoute, City } from '../../consts';
 import { IOffer } from '../../types/offers';
+import { getToken } from '../../services/token';
+import { APIRoute, City, BASE_BACKEND_URL, Path } from '../../consts';
 
 export const fetchOffersAction = createAsyncThunk<
   void,
@@ -14,3 +16,31 @@ export const fetchOffersAction = createAsyncThunk<
   dispatch(setAllOffers(data));
   dispatch(setFiltredOffers(city));
 });
+
+export const changeFavouriteStatusOffer = createAsyncThunk<
+  IOffer,
+  { idOffer: string; isFavorite: boolean },
+  { dispatch: AppDispatch; state: State }
+>(
+  'offers/changeStatusIsFavourite',
+  async ({ idOffer, isFavorite }, { dispatch }): Promise<IOffer> => {
+    const token = getToken();
+
+    try {
+      const res = await axios.post<IOffer>(
+        `${BASE_BACKEND_URL}${APIRoute.Favorite}/${idOffer}/${
+          isFavorite ? 0 : 1
+        }`,
+        {},
+        { headers: { 'x-token': token } }
+      );
+
+      const { data } = res;
+
+      return data;
+    } catch {
+      dispatch(redirectToRoute(Path.Login));
+      throw 'Необходима авторизация';
+    }
+  }
+);

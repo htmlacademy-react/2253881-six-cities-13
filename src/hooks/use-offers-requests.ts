@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getToken } from '../services/token';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './redux-hooks';
 import { getCurrentCity } from '../store/offers-slice/selectors-offers';
@@ -13,7 +14,7 @@ import { IComment } from '../types/comments';
 const useOffersRequests = () => {
   const [comments, setComments] = useState<Array<IComment>>();
   const [nearbyOffers, setNearbyOffers] = useState<Array<IOffer>>();
-  const [currentOffer, setCurrentComment] = useState<TOneCurrentOffer>();
+  const [currentOffer, setCurrentOffer] = useState<TOneCurrentOffer>();
 
   const offers = useAppSelector(getAllOffers);
   const activeCity = useAppSelector(getCurrentCity);
@@ -31,8 +32,10 @@ const useOffersRequests = () => {
       `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}/nearby`,
       `${BASE_BACKEND_URL + APIRoute.Offers}/${id || ''}`,
     ];
-
-    const requests = urls.map((url) => axios.get(url));
+    const token = getToken();
+    const requests = urls.map((url) =>
+      axios.get(url, { headers: { 'x-token': token } })
+    );
 
     axios
       .all(requests)
@@ -47,10 +50,9 @@ const useOffersRequests = () => {
           ...nearByOffersSliced,
           currentOfferForNerbyMap,
         ];
-
         setComments(responses[0].data as Array<IComment>);
         setNearbyOffers(nearbyOffersToSave as Array<IOffer>);
-        setCurrentComment(responses[2].data as TOneCurrentOffer);
+        setCurrentOffer(responses[2].data as TOneCurrentOffer);
       })
       .catch(() => {
         navigate(`../${Path.NotFound}`);
@@ -62,6 +64,7 @@ const useOffersRequests = () => {
     nearbyOffers,
     currentOffer,
     setComments,
+    setCurrentOffer,
   };
 };
 

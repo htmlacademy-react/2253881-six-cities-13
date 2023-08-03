@@ -2,21 +2,27 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { logoutAction } from '../../store/user-slice/async-user-slice';
-import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { Path, AuthorizationStatus } from '../../consts';
-
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import './header.css';
+import { getAllOffers } from '../../store/offers-slice/selectors-offers';
 
 const Header: React.FC = () => {
-  const isLogged = useAppSelector(getAuthStatus);
   const isLogin = useLocation();
   const dispatch = useAppDispatch();
+  const isLogged = useAppSelector(getAuthStatus);
+  const offers = useAppSelector(getAllOffers);
 
   const isNavToRender = isLogin.pathname === `/${Path.Login}`;
 
   const onClickButtonLogout = () => {
     dispatch(logoutAction());
   };
+
+  const favCount = offers.reduce(
+    (acc, el) => (el.isFavorite ? (acc = acc + 1) : acc),
+    0
+  );
 
   let contentForNavbar;
 
@@ -37,13 +43,13 @@ const Header: React.FC = () => {
         <li className="header__nav-item user">
           <Link
             className="header__nav-link header__nav-link--profile"
-            to={Path.Main}
+            to={`/${Path.Favorite}`}
           >
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
             <span className="header__user-name user__name">
               Oliver.conner@gmail.com
             </span>
-            <span className="header__favorite-count">3</span>
+            <span className="header__favorite-count">{favCount}</span>
           </Link>
         </li>
         <li className="header__nav-item">

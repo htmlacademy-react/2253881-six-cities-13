@@ -1,6 +1,6 @@
 import React from 'react';
 import { RotatingLines } from 'react-loader-spinner';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import useOffersRequests from '../../hooks/use-offers-requests';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
@@ -8,15 +8,18 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import NearbyPlacesList from '../../components/nearby-places-list/nearby-places-list';
 import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
+import { changeFavouriteStatusOffer } from '../../store/offers-slice/async-offers-actions';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { AuthorizationStatus } from '../../consts';
 import './offer-screen.css';
+import classNames from 'classnames';
 
 const OfferScreen: React.FC = () => {
   const isLoading = useAppSelector(getLoadingStatus);
   const isLogged = useAppSelector(getAuthStatus);
+  const dispatch = useAppDispatch();
 
-  const { comments, nearbyOffers, currentOffer, setComments } =
+  const { comments, nearbyOffers, currentOffer, setComments, setCurrentOffer } =
     useOffersRequests();
 
   const ratingLength = `${(100 / 5) * Math.round(currentOffer?.rating || 0)}%`;
@@ -38,6 +41,22 @@ const OfferScreen: React.FC = () => {
   const isRenderFormComment = isLogged === AuthorizationStatus.Auth && (
     <OfferForm setComments={setComments} />
   );
+
+  const changeFavouriteStatus = () => {
+    if (currentOffer) {
+      dispatch(
+        changeFavouriteStatusOffer({
+          idOffer: currentOffer?.id,
+          isFavorite: currentOffer?.isFavorite,
+        })
+      );
+
+      setCurrentOffer({
+        ...currentOffer,
+        isFavorite: !currentOffer.isFavorite,
+      });
+    }
+  };
 
   return (
     <div className="page">
@@ -65,7 +84,15 @@ const OfferScreen: React.FC = () => {
               )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{currentOffer?.title}</h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  onClick={changeFavouriteStatus}
+                  className={classNames('offer__bookmark-button', 'button', {
+                    'offer__bookmark-button--active':
+                      currentOffer?.isFavorite &&
+                      isLogged === AuthorizationStatus.Auth,
+                  })}
+                  type="button"
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -136,7 +163,9 @@ const OfferScreen: React.FC = () => {
             </div>
           </div>
           <section className="offer__map map">
-            {nearbyOffers && <Map offers={nearbyOffers} />}
+            {nearbyOffers && (
+              <Map offers={nearbyOffers} selectedPointId={currentOffer?.id} />
+            )}
           </section>
         </section>
         <div className="container">

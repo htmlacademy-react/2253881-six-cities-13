@@ -46,4 +46,5 @@ export enum APIRoute {
   Comments = '/six-cities/comments/',
   Login = '/six-cities/login',
   Logout = '/six-cities/logout',
+  Favorite = '/six-cities/favorite',
 }
