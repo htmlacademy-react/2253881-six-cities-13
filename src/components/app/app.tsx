@@ -12,7 +12,11 @@ import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
-import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
+import {
+  getAllOffers,
+  getLoadingStatus,
+} from '../../store/offers-slice/selectors-offers';
+import ErrorOffers from '../error-offers/error-offers';
 import { Path, AuthorizationStatus } from '../../consts';
 import styles from './app.module.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +24,11 @@ import 'react-toastify/dist/ReactToastify.css';
 const App: React.FC = () => {
   const authStatus = useAppSelector(getAuthStatus);
   const isLoading = useAppSelector(getLoadingStatus);
+  const allOffers = useAppSelector(getAllOffers);
+
+  if (!isLoading && !allOffers.length) {
+    return <ErrorOffers />;
+  }
 
   if (isLoading || authStatus === AuthorizationStatus.Unknown) {
     return (

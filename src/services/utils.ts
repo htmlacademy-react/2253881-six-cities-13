@@ -1,4 +1,5 @@
 import { IOffer } from '../types/offers';
+import { IUserLoginData } from '../types/user';
 
 export const getRandomElemsFromArr = (arr: Array<IOffer>, count: number) => {
   const result: Array<IOffer> = [];
@@ -12,4 +13,18 @@ export const getRandomElemsFromArr = (arr: Array<IOffer>, count: number) => {
   }
 
   return result;
+};
+
+const userDataKey = 'userData';
+
+export const setLocalUserData = (data: IUserLoginData) => {
+  localStorage.setItem(userDataKey, JSON.stringify(data));
+};
+
+export const getLocalUserData = (): IUserLoginData | void => {
+  const data = localStorage.getItem(userDataKey);
+
+  if (data !== null) {
+    return JSON.parse(data) as IUserLoginData;
+  }
 };

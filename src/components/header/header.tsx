@@ -6,12 +6,14 @@ import { Path, AuthorizationStatus } from '../../consts';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import './header.css';
 import { getFavOffers } from '../../store/offers-slice/selectors-offers';
+import { getLocalUserData } from '../../services/utils';
 
 const Header: React.FC = () => {
   const isLogin = useLocation();
   const dispatch = useAppDispatch();
   const isLogged = useAppSelector(getAuthStatus);
   const offers = useAppSelector(getFavOffers);
+  const userData = getLocalUserData();
 
   const isNavToRender = isLogin.pathname === `/${Path.Login}`;
 
@@ -42,7 +44,7 @@ const Header: React.FC = () => {
           >
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
             <span className="header__user-name user__name">
-              Oliver.conner@gmail.com
+              {userData?.email}
             </span>
             <span className="header__favorite-count">{offers.length}</span>
           </Link>

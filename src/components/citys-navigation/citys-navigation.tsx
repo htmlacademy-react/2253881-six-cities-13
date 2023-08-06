@@ -50,4 +50,6 @@ const CitiesNavigation: React.FC = () => {
   );
 };
 
-export default CitiesNavigation;
+const MemoizedCitiesMavigation = React.memo(CitiesNavigation);
+
+export default MemoizedCitiesMavigation;

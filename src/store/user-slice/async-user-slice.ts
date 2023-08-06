@@ -3,13 +3,19 @@ import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../../types/state';
 import { redirectToRoute } from '../actions';
 import { APIRoute, Path, SortMethod } from '../../consts';
-import { IUserLogin, IUserResponseLogin } from '../../types/user';
+import {
+  IUserLogin,
+  IUserResponseLogin,
+  IUserLoginData,
+} from '../../types/user';
+
 import {
   fetchFavOffers,
   fetchOffersAction,
 } from '../offers-slice/async-offers-actions';
 import { setSortMethod } from '../offers-slice/offers-slice';
 import { setToken } from '../../services/token';
+import { setLocalUserData } from '../../services/utils';
 
 export const loginAction = createAsyncThunk<
   IUserResponseLogin,
@@ -27,6 +33,16 @@ export const loginAction = createAsyncThunk<
     });
 
     setToken(data.token);
+
+    const userData: IUserLoginData = {
+      name: data.name,
+      isPro: data.isPro,
+      email: data.email,
+      avatarUrl: data.avatarUrl,
+    };
+
+    setLocalUserData(userData);
+
     dispatch(fetchOffersAction(getState().offers.city));
     dispatch(setSortMethod(SortMethod.Popular));
     dispatch(fetchFavOffers());
