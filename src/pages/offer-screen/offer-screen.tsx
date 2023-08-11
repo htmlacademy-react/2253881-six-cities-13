@@ -41,7 +41,7 @@ const OfferScreen: React.FC = () => {
     return (
       <div className="spinner-container-offer">
         <RotatingLines
-          strokeColor="grey"
+          strokeColor="lightblue"
           strokeWidth="3"
           animationDuration="0.75"
           width="150"
@@ -125,13 +125,15 @@ const OfferScreen: React.FC = () => {
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {currentOffer.type}
+                  {currentOffer.type[0].toUpperCase() +
+                    currentOffer.type.slice(1)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
                   {currentOffer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {currentOffer.maxAdults} adults
+                  Max {currentOffer.maxAdults}{' '}
+                  {currentOffer.maxAdults > 1 ? 'adults' : 'adult'}
                 </li>
               </ul>
               <div className="offer__price">

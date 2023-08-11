@@ -37,7 +37,7 @@ const FavoriteList: React.FC = () => {
     return (
       <div className={styles.containerForLoader}>
         <RotatingLines
-          strokeColor="grey"
+          strokeColor="lightblue"
           strokeWidth="3"
           animationDuration="0.75"
           width="150"

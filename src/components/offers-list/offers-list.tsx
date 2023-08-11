@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import OnePlaceCard from '../one-place-card/one-place-card';
 import { IOffer } from '../../types/offers';
 
@@ -12,4 +12,6 @@ const OffersList: React.FC<IOffersList> = ({ offers, setActiveOfferId }) =>
     <OnePlaceCard key={el.id} {...el} setActiveOfferId={setActiveOfferId} />
   ));
 
-export default OffersList;
+const MemoizdeOffersList = memo(OffersList);
+
+export default MemoizdeOffersList;

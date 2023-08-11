@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { checkAuthAction, logoutAction, loginAction } from './async-user-slice';
 import { deleteToken } from '../../services/token';
 import { AuthorizationStatus } from '../../consts';
-
 interface IuserSlice {
   authorizationStatus: AuthorizationStatus;
 }

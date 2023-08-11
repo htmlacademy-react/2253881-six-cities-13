@@ -1,14 +1,17 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IComment } from '../../types/comments';
+import { sendComment } from './async-comments';
 
-interface ICommentsSliceState {
+export interface ICommentsSliceState {
   comments: Array<IComment>;
   error: boolean;
+  isLoading: boolean;
 }
 
 const initialState: ICommentsSliceState = {
   comments: [],
   error: false,
+  isLoading: false,
 };
 
 const commentsSlice = createSlice({
@@ -21,6 +24,18 @@ const commentsSlice = createSlice({
     setError: (state) => {
       state.error = !state.error;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(sendComment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(sendComment.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(sendComment.rejected, (state) => {
+        state.isLoading = false;
+      });
   },
 });
 

@@ -8,7 +8,7 @@ import { City, SortMethod } from '../../consts';
 import { IOffer, TOneCurrentOffer } from '../../types/offers';
 import { toast } from 'react-toastify';
 
-interface IOffersSlice {
+export interface IOffersSlice {
   city: City;
   filtredOffers: Array<IOffer>;
   offers: Array<IOffer>;
@@ -46,7 +46,7 @@ const offersSlice = createSlice({
       );
     },
     setAllOffers: (state, action: PayloadAction<Array<IOffer>>) => {
-      state.offers = [...action.payload];
+      state.offers = action.payload;
     },
     setFavOffers: (state, action: PayloadAction<Array<IOffer>>) => {
       state.favOfffers = action.payload;
@@ -106,7 +106,6 @@ const offersSlice = createSlice({
           }
           return el;
         });
-
         state.offers = state.offers.map((el) => {
           if (el.id === action.payload.id) {
             el.isFavorite = !el.isFavorite;

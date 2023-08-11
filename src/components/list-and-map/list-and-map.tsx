@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../../hooks/redux-hooks';
-import OffersList from '../offers-list/offers-list';
+import MemoizdeOffersList from '../offers-list/offers-list';
 import SortPlaces from '../sort-places/sort-places';
 import Map from '../map/map';
 import {
@@ -45,7 +45,7 @@ const ListAndMap: React.FC = () => {
           </b>
           <SortPlaces />
           <div className="cities__places-list places__list tabs__content">
-            <OffersList
+            <MemoizdeOffersList
               offers={filtredOffers}
               setActiveOfferId={setActiveOfferId}
             />

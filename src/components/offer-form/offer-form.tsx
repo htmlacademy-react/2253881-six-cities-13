@@ -2,12 +2,14 @@ import React, { useState, useCallback } from 'react';
 import StarRating from '../star-rating/star-rating';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { IForm } from '../../types/common';
 import { sendComment } from '../../store/comments-slice/async-comments';
+import { getStatusLoadingComments } from '../../store/comments-slice/selectors-offers';
 
 const OfferForm: React.FC = () => {
   const { id } = useParams();
+  const isLoading = useAppSelector(getStatusLoadingComments);
 
   const dispatch = useAppDispatch();
   const [form, setForm] = useState<IForm>({ rating: null, comment: '' });
@@ -61,6 +63,12 @@ const OfferForm: React.FC = () => {
     []
   );
 
+  const isDisabled =
+    form.rating === null ||
+    form.comment.length < 50 ||
+    form.comment.length > 300 ||
+    isLoading;
+
   return (
     <form
       className="reviews__form form"
@@ -89,7 +97,11 @@ const OfferForm: React.FC = () => {
           <span className="reviews__star">rating</span> and describe your stay
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">
+        <button
+          disabled={isDisabled}
+          className="reviews__submit form__submit button"
+          type="submit"
+        >
           Submit
         </button>
       </div>

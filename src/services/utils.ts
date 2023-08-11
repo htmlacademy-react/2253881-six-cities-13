@@ -1,8 +1,16 @@
 import { IOffer } from '../types/offers';
 import { IUserLoginData } from '../types/user';
+import { USER_DATA_KEY } from '../consts';
 
-export const getRandomElemsFromArr = (arr: Array<IOffer>, count: number) => {
+export const getRandomElemsFromArr = (
+  arr: Array<IOffer>,
+  count: number
+): Array<IOffer> | never => {
   const result: Array<IOffer> = [];
+
+  if (arr.length < count) {
+    throw new Error('Error func, count shoul be bigger than arr length');
+  }
 
   while (result.length < count) {
     const current = arr[Math.floor(Math.random() * arr.length)];
@@ -15,14 +23,12 @@ export const getRandomElemsFromArr = (arr: Array<IOffer>, count: number) => {
   return result;
 };
 
-const userDataKey = 'userData';
-
 export const setLocalUserData = (data: IUserLoginData) => {
-  localStorage.setItem(userDataKey, JSON.stringify(data));
+  localStorage.setItem(USER_DATA_KEY, JSON.stringify(data));
 };
 
 export const getLocalUserData = (): IUserLoginData | void => {
-  const data = localStorage.getItem(userDataKey);
+  const data = localStorage.getItem(USER_DATA_KEY);
 
   if (data !== null) {
     return JSON.parse(data) as IUserLoginData;

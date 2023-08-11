@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Navigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import LoginForm from '../../components/login-form/login-form';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
-import { AuthorizationStatus, Path } from '../../consts';
+import { AuthorizationStatus, Path, City, SortMethod } from '../../consts';
+import {
+  setCity,
+  setFiltredOffers,
+  setSortMethod,
+} from '../../store/offers-slice/offers-slice';
+import { redirectToRoute } from '../../store/actions';
+import styles from './login-screen.module.css';
 
 const LoginScreen: React.FC = () => {
+  const dispatch = useAppDispatch();
   const isLogged = useAppSelector(getAuthStatus);
+
+  const arrayOfCitys = Object.values(City);
+
+  const randomCity =
+    arrayOfCitys[Math.floor(Math.random() * arrayOfCitys.length)];
+
+  const onClickButtonCity = useCallback(() => {
+    dispatch(setCity(randomCity));
+    dispatch(setFiltredOffers(randomCity));
+    dispatch(setSortMethod(SortMethod.Popular));
+    dispatch(redirectToRoute(Path.Main));
+  }, [dispatch, randomCity]);
 
   if (isLogged === AuthorizationStatus.Auth) {
     return <Navigate to={Path.Main} />;
@@ -24,9 +44,12 @@ const LoginScreen: React.FC = () => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <button
+                onClick={onClickButtonCity}
+                className={`${styles.buttonCity} locations__item-link`}
+              >
+                <span>{randomCity}</span>
+              </button>
             </div>
           </section>
         </div>
