@@ -17,10 +17,9 @@ const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const isLogged = useAppSelector(getAuthStatus);
 
-  const arrayOfCitys = Object.values(City);
+  const citys = Object.values(City);
 
-  const randomCity =
-    arrayOfCitys[Math.floor(Math.random() * arrayOfCitys.length)];
+  const randomCity = citys[Math.floor(Math.random() * citys.length)];
 
   const onClickButtonCity = useCallback(() => {
     dispatch(setCity(randomCity));
