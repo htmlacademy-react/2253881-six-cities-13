@@ -15,7 +15,7 @@ export interface IOffersSlice {
   sortMethod: SortMethod;
   loadingStatus: boolean;
   nearbyOffers: Array<IOffer>;
-  favOfffers: Array<IOffer>;
+  favOffers: Array<IOffer>;
   currentOffer: TOneCurrentOffer | null;
 }
 
@@ -26,7 +26,7 @@ const initialState: IOffersSlice = {
   sortMethod: SortMethod.Popular,
   loadingStatus: false,
   nearbyOffers: [],
-  favOfffers: [],
+  favOffers: [],
   currentOffer: null,
 };
 
@@ -49,7 +49,7 @@ const offersSlice = createSlice({
       state.offers = action.payload;
     },
     setFavOffers: (state, action: PayloadAction<Array<IOffer>>) => {
-      state.favOfffers = action.payload;
+      state.favOffers = action.payload;
     },
     setSortMethod: (state, action: PayloadAction<SortMethod>) => {
       state.sortMethod = action.payload;
@@ -118,7 +118,10 @@ const offersSlice = createSlice({
         toast.warn(action.error.message);
       })
       .addCase(fetchFavOffers.fulfilled, (state, action) => {
-        state.favOfffers = [...action.payload];
+        state.favOffers = [...action.payload];
+      })
+      .addCase(fetchFavOffers.rejected, (state) => {
+        state.favOffers = [];
       });
   },
 });

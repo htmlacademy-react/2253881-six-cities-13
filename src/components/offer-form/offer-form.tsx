@@ -37,7 +37,7 @@ const OfferForm: React.FC = () => {
 
       dispatch(sendComment(value))
         .unwrap()
-        .then(() => setForm({ rating: 0, comment: '' }))
+        .then(() => setForm({ rating: null, comment: '' }))
         .catch(() => toast.warn('Проверьте форму на корректность'));
     },
     [dispatch, form, id]
@@ -82,10 +82,12 @@ const OfferForm: React.FC = () => {
       <StarRating
         starChangeHandler={starChangeHandler}
         startValue={form.rating}
+        isLoading={isLoading}
       />
       <textarea
         onChange={textAreaChangeHandler}
         value={form.comment}
+        disabled={isLoading}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"

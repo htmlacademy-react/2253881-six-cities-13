@@ -50,7 +50,6 @@ const OfferScreen: React.FC = () => {
       </div>
     );
   }
-
   const isRenderFormComment = isLogged === AuthorizationStatus.Auth && (
     <OfferForm />
   );

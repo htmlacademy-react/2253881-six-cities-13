@@ -13,7 +13,11 @@ import offersSlice from './offers-slice';
 import { IOffersSlice } from './offers-slice';
 import { City, SortMethod } from '../../consts';
 import { createOneCurrentOffer, makeOffers } from '../../mocks/mocks';
-// import { fetchOffersAction } from './async-offers-actions';
+import {
+  fetchOffersAction,
+  changeFavouriteStatusOffer,
+  fetchFavOffers,
+} from './async-offers-actions';
 
 describe('offers slice', () => {
   const state: IOffersSlice = {
@@ -23,7 +27,7 @@ describe('offers slice', () => {
     sortMethod: SortMethod.Popular,
     loadingStatus: false,
     nearbyOffers: [],
-    favOfffers: [],
+    favOffers: [],
     currentOffer: null,
   };
 
@@ -72,7 +76,7 @@ describe('offers slice', () => {
   });
 
   it('set fav offers', () => {
-    const expectedState = { ...state, favOfffers: [...offersMocks] };
+    const expectedState = { ...state, favOffers: [...offersMocks] };
 
     const result = offersSlice(state, setFavOffers(offersMocks));
 
@@ -127,9 +131,98 @@ describe('offers slice', () => {
     expect(result.nearbyOffers).toEqual(offersMocks);
   });
 
-  // it('set offers all thunk action', async () => {
-  //   const offers = makeOffers();
-  //   const dispatch = vitest.fn();
-  //   const thunk = fetchOffersAction(City.Paris);
-  // });
+  it('fetchOffersAction.pending should set loading true', () => {
+    const expectedState = { ...state, loadingStatus: true };
+
+    const result = offersSlice(state, fetchOffersAction.pending);
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('fetchOffersAction.fulfilled should set loading false', () => {
+    const expectedState = { ...state, loadingStatus: false };
+
+    const result = offersSlice(state, fetchOffersAction.fulfilled);
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('fetchOffersAction.rejected shoud do some reset ', () => {
+    const expectedState = {
+      ...state,
+      loadingStatus: false,
+      city: City.Paris,
+      filtredOffers: [],
+      offers: [],
+    };
+
+    const result = offersSlice(state, fetchOffersAction.rejected);
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('changeFavouriteStatusOffer.fulfilled do some mutation ', () => {
+    const expectedState = {
+      ...state,
+      offers: [...offersMocks],
+      loadingStatus: false,
+      city: City.Paris,
+      filtredOffers: [...offersMocks],
+    };
+
+    const result = offersSlice(
+      state,
+      changeFavouriteStatusOffer.fulfilled(offersMocks[0], '', {
+        idOffer: offersMocks[0].id,
+        isFavorite: offersMocks[0].isFavorite,
+      })
+    );
+
+    expectedState.filtredOffers = state.filtredOffers.map((el) => {
+      if (el.id === offersMocks[0].id) {
+        el.isFavorite = !el.isFavorite;
+        return el;
+      }
+      return el;
+    });
+    expectedState.offers = state.offers.map((el) => {
+      if (el.id === offersMocks[0].id) {
+        el.isFavorite = !el.isFavorite;
+        return el;
+      }
+      return el;
+    });
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('fetchFavOffers.fullfiled should rewrite favOffers ', () => {
+    const expectedState = {
+      ...state,
+      favOffers: [...offersMocks],
+    };
+
+    const result = offersSlice(
+      state,
+      fetchFavOffers.fulfilled(offersMocks, '', undefined)
+    );
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('fetchFavOffers.rejected favOffers should be empty ', () => {
+    const expectedState = {
+      ...state,
+      favOffers: [],
+    };
+
+    const editedState = {
+      ...state,
+      favOffers: [...offersMocks],
+    };
+
+    const result = offersSlice(editedState, fetchFavOffers.rejected);
+
+    expect(result).toEqual(expectedState);
+  });
 });

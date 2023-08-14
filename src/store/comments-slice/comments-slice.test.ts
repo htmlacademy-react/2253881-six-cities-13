@@ -1,12 +1,14 @@
 import { describe } from 'vitest';
-import { setComments, setError } from './comments-slice';
+import { setComments, setError, ICommentsSliceState } from './comments-slice';
 import commentsSlice from './comments-slice';
+import { sendComment } from './async-comments';
 import { makeCommets } from '../../mocks/mocks';
 
 describe('comments slice', () => {
-  const state = {
+  const state: ICommentsSliceState = {
     comments: [],
     error: false,
+    isLoading: false,
   };
 
   const commentsMocks = makeCommets();
@@ -21,5 +23,42 @@ describe('comments slice', () => {
     const result = commentsSlice(state, setError);
 
     expect(result.error).toEqual(!state.error);
+  });
+
+  it('sendComment.pending should set loading true', () => {
+    const expectedState = {
+      ...state,
+      isLoading: true,
+    };
+
+    const result = commentsSlice(state, sendComment.pending);
+
+    expect(expectedState).toEqual(result);
+  });
+
+  it('sendComment.fullfield should set loading true', () => {
+    const expectedState = {
+      ...state,
+      isLoading: false,
+    };
+
+    const editedState = { ...state, isLoading: true };
+
+    const result = commentsSlice(editedState, sendComment.fulfilled);
+
+    expect(expectedState).toEqual(result);
+  });
+
+  it('sendComment.reject should set loading false', () => {
+    const expectedState = {
+      ...state,
+      isLoading: false,
+    };
+
+    const editedState = { ...state, isLoading: true };
+
+    const result = commentsSlice(editedState, sendComment.rejected);
+
+    expect(expectedState).toEqual(result);
   });
 });

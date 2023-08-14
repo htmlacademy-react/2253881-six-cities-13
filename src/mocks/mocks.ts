@@ -3,6 +3,19 @@ import { IComment } from '../types/comments';
 import { IOffer } from '../types/offers';
 import { City } from '../consts';
 import { TOneCurrentOffer } from '../types/offers';
+import { createApi } from '../services/api';
+import { ThunkDispatch } from 'redux-thunk';
+import { State } from '../types/state';
+import { Action } from 'redux';
+
+export type AppThunkDispatch = ThunkDispatch<
+  State,
+  ReturnType<typeof createApi>,
+  Action
+>;
+
+export const extractActionsTypes = (actions: Action<string>[]) =>
+  actions.map(({ type }) => type);
 
 export const makeCommets = (): Array<IComment> => {
   const result = new Array(5).fill(null).map(() => ({

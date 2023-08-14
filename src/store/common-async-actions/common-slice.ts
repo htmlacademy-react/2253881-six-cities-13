@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { setOffersCurrentOfferCommentsThunk } from './set-offers-comments-async';
 
-interface ICommonSliceState {
+export interface ICommonSliceState {
   statusLoading: boolean;
   statusError: null | string;
 }

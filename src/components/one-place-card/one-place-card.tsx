@@ -35,6 +35,10 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
     setActiveOfferId?.(id);
   }, [setActiveOfferId, id]);
 
+  const mouseStatusLeaveEditHandler = useCallback(() => {
+    setActiveOfferId?.('');
+  }, [setActiveOfferId]);
+
   const ratingLength = `${(100 / 5) * Math.round(rating)}%`;
 
   const changeFavouriteStatus = useCallback(() => {
@@ -47,7 +51,7 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
   return (
     <article
       onMouseEnter={mouseStatusEditHandler}
-      onMouseLeave={mouseStatusEditHandler}
+      onMouseLeave={mouseStatusLeaveEditHandler}
       className={classNames(
         'place-card',
         {

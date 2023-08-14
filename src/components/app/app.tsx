@@ -34,7 +34,7 @@ const App: React.FC = () => {
     return (
       <div className={styles.loadingContainer}>
         <RotatingLines
-          strokeColor="grey"
+          strokeColor="lightblue"
           strokeWidth="3"
           animationDuration="0.75"
           width="150"

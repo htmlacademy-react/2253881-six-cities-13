@@ -14,4 +14,4 @@ export const getCurrentOffer = (state: State) => state.offers.currentOffer;
 
 export const getNearbyOffers = (state: State) => state.offers.nearbyOffers;
 
-export const getFavOffers = (state: State) => state.offers.favOfffers;
+export const getFavOffers = (state: State) => state.offers.favOffers;

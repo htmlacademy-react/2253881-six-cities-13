@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { setSortMethod } from '../../store/offers-slice/offers-slice';
@@ -18,6 +18,26 @@ const SortPlaces: React.FC = () => {
     },
     [dispatch]
   );
+
+  const onClickDocumentHideSort = useCallback(
+    (evt: MouseEvent) => {
+      if (
+        (evt.target as HTMLElement).className !== 'places__option' &&
+        (evt.target as HTMLElement).className !== 'places__sorting-type' &&
+        isSortSelectOpen
+      ) {
+        setIsSortSelectOpen(false);
+      }
+    },
+    [isSortSelectOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener('click', onClickDocumentHideSort);
+    return () => {
+      document.removeEventListener('click', onClickDocumentHideSort);
+    };
+  }, [onClickDocumentHideSort]);
 
   return (
     <form className="places__sorting" action="#" method="get">
