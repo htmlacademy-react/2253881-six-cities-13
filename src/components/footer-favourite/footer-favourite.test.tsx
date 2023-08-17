@@ -13,5 +13,6 @@ describe('footer fav test', () => {
     const links: HTMLAnchorElement[] = screen.getAllByRole('link');
 
     expect(links[0].href).toContain('/');
+    expect(screen.getByAltText('6 cities logo')).toBeInTheDocument();
   });
 });

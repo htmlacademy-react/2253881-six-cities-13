@@ -34,3 +34,7 @@ export const getLocalUserData = (): IUserLoginData | void => {
     return JSON.parse(data) as IUserLoginData;
   }
 };
+
+export const deleteLocalData = (): void => {
+  localStorage.removeItem(USER_DATA_KEY);
+};

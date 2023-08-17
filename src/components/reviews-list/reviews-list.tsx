@@ -13,10 +13,10 @@ const ReviewsList: React.FC<IReviewsListProps> = ({ comments }) => {
   return (
     <>
       <h2 className="reviews__title">
-        Reviews &middot;{' '}
+        Reviews &middot;
         <span className="reviews__amount">{comments.length}</span>
       </h2>
-      <ul className="reviews__list">
+      <ul className="reviews__list" data-testid="container">
         {editedComments.map((el) => (
           <Review key={`comment-${el.id}`} {...el} />
         ))}

@@ -17,6 +17,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
     {COUNT_STARS.map((el) => (
       <React.Fragment key={`star-number-${el[0]}`}>
         <input
+          data-testid="input_test"
           onChange={starChangeHandler}
           className="form__rating-input visually-hidden"
           name="rating"

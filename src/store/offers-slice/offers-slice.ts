@@ -113,6 +113,14 @@ const offersSlice = createSlice({
           }
           return el;
         });
+
+        state.nearbyOffers = state.nearbyOffers.map((el) => {
+          if (el.id === action.payload.id) {
+            el.isFavorite = !el.isFavorite;
+            return el;
+          }
+          return el;
+        });
       })
       .addCase(changeFavouriteStatusOffer.rejected, (_, action) => {
         toast.warn(action.error.message);

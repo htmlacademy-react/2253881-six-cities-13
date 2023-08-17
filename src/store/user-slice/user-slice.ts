@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { checkAuthAction, logoutAction, loginAction } from './async-user-slice';
 import { deleteToken } from '../../services/token';
 import { AuthorizationStatus } from '../../consts';
+import { deleteLocalData } from '../../services/utils';
 interface IuserSlice {
   authorizationStatus: AuthorizationStatus;
 }
@@ -32,6 +33,7 @@ const userSlice = createSlice({
       })
       .addCase(logoutAction.fulfilled, (state) => {
         deleteToken();
+        deleteLocalData();
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(logoutAction.rejected, () => {
