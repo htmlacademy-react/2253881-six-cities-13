@@ -64,6 +64,7 @@ const LoginForm: React.FC = () => {
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">E-mail</label>
         <input
+          data-testid="input_email"
           className="login__input form__input"
           type="email"
           name="email"
@@ -76,6 +77,7 @@ const LoginForm: React.FC = () => {
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">Password</label>
         <input
+          data-testid="input_password"
           className="login__input form__input"
           type="password"
           name="password"
@@ -85,7 +87,11 @@ const LoginForm: React.FC = () => {
           onChange={onChangeInputHandler}
         />
       </div>
-      <button className="login__submit form__submit button" type="submit">
+      <button
+        data-testid="submit-button"
+        className="login__submit form__submit button"
+        type="submit"
+      >
         Sign in
       </button>
     </form>

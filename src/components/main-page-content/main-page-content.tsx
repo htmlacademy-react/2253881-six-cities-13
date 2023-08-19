@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import MemoizedCitiesMavigation from '../citys-navigation/citys-navigation';
+import MemoizedCitiesMavigation from '../cities-navigation/cities-navigation';
 import ListAndMap from '../list-and-map/list-and-map';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { getFiltredOffers } from '../../store/offers-slice/selectors-offers';

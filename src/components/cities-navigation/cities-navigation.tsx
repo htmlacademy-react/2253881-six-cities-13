@@ -8,7 +8,7 @@ import {
   setSortMethod,
 } from '../../store/offers-slice/offers-slice';
 import { City, SortMethod } from '../../consts';
-import './citys-navigation.css';
+import './cities-navigation.css';
 
 const CitiesNavigation: React.FC = () => {
   const setedCity = useAppSelector(getCurrentCity);
@@ -28,7 +28,11 @@ const CitiesNavigation: React.FC = () => {
       <section className="locations container">
         <ul className="locations__list tabs__list">
           {Object.values(City).map((el) => (
-            <li key={`unique-city-${el}`} className="locations__item">
+            <li
+              data-testid="li_nav"
+              key={`unique-city-${el}`}
+              className="locations__item"
+            >
               <button
                 className={classNames(
                   'locations__item-link',

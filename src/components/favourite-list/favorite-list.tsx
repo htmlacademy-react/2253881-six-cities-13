@@ -35,7 +35,7 @@ const FavoriteList: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className={styles.containerForLoader}>
+      <div data-testid="loading-stage" className={styles.containerForLoader}>
         <RotatingLines
           strokeColor="lightblue"
           strokeWidth="3"
@@ -59,6 +59,7 @@ const FavoriteList: React.FC = () => {
       <ul className="favorites__list">
         {cityList.map((city) => (
           <li
+            data-testid="li-list"
             key={`uniq-city-name-fav-list${city}`}
             className="favorites__locations-items"
           >

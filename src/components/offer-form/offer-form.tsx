@@ -85,6 +85,7 @@ const OfferForm: React.FC = () => {
         isLoading={isLoading}
       />
       <textarea
+        data-testid="text_area_comment"
         onChange={textAreaChangeHandler}
         value={form.comment}
         disabled={isLoading}
@@ -100,6 +101,7 @@ const OfferForm: React.FC = () => {
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button
+          data-testid="button_send"
           disabled={isDisabled}
           className="reviews__submit form__submit button"
           type="submit"

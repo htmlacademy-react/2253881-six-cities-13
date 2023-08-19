@@ -9,5 +9,7 @@ describe('Component: Reviews list', () => {
     render(<ReviewsList comments={mockComments} />);
 
     expect(screen.getByTestId('container')).toBeInTheDocument();
+    expect(screen.getByText(mockComments.length)).toBeInTheDocument();
+    expect(screen.getAllByText('Rating').length).toBe(mockComments.length);
   });
 });
