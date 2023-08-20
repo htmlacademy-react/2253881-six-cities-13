@@ -42,6 +42,7 @@ const CitiesNavigation: React.FC = () => {
                     'tabs__item--active': setedCity === el,
                   }
                 )}
+                data-testid="button_test"
                 onClick={onClickCityButtonNav(el)}
               >
                 <span>{el}</span>

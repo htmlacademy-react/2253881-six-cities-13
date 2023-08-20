@@ -1,7 +1,7 @@
 import { datatype, date, name, internet, lorem } from 'faker';
 import { IComment } from '../types/comments';
 import { IOffer } from '../types/offers';
-import { City } from '../consts';
+import { AuthorizationStatus, City, SortMethod } from '../consts';
 import { TOneCurrentOffer } from '../types/offers';
 import { createApi } from '../services/api';
 import { ThunkDispatch } from 'redux-thunk';
@@ -89,3 +89,28 @@ export const createOneCurrentOffer = (): TOneCurrentOffer => {
     maxAdults: Math.floor(Math.random() * (5 - 1) + 1),
   };
 };
+
+export const makeFakeStore = (): State => ({
+  user: {
+    authorizationStatus: AuthorizationStatus.Auth,
+  },
+  comments: {
+    comments: makeCommets(),
+    error: false,
+    isLoading: false,
+  },
+  offers: {
+    city: City.Paris,
+    filtredOffers: [...makeOffers()],
+    offers: [...makeOffers()],
+    sortMethod: SortMethod.Popular,
+    loadingStatus: false,
+    nearbyOffers: [...makeOffers()],
+    favOffers: [...makeOffers()],
+    currentOffer: null,
+  },
+  common: {
+    statusLoading: false,
+    statusError: null,
+  },
+});

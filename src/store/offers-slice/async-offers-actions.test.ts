@@ -129,7 +129,7 @@ describe('offers thunk thunks', () => {
       ]);
     });
 
-    it('change fav status on error shpuld redirect', async () => {
+    it('change fav status on error should redirect', async () => {
       const mockOffers = makeOffers();
       const mokedGetToken = vi.spyOn(tokenFunc, 'getToken');
 

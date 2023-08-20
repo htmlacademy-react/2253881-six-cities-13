@@ -8,8 +8,6 @@ import LoginScreen from '../../pages/login-screen/login-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import HistoryRouter from '../history-router/history-router';
-import browserHistory from '../../browser-history';
 import { useAppSelector } from '../../hooks/redux-hooks';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import {
@@ -45,7 +43,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <HistoryRouter history={browserHistory}>
+    <>
       <ToastContainer />
       <Routes>
         <Route path={Path.Main}>
@@ -63,7 +61,7 @@ const App: React.FC = () => {
           <Route path={Path.NotFound} element={<NotFound />} />
         </Route>
       </Routes>
-    </HistoryRouter>
+    </>
   );
 };
 

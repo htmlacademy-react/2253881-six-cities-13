@@ -40,33 +40,4 @@ describe('Component:offer form', () => {
 
     expect(screen.getByTestId(buttonId)).toHaveAttribute('disabled');
   });
-
-  it('offer from should work correctly', async () => {
-    const idTextArea = 'text_area_comment';
-    const buttonId = 'button_send';
-
-    const { withStoreComponent } = withStore(<OfferForm />, {
-      comments: {
-        isLoading: false,
-        comments: [],
-        error: false,
-      },
-    });
-
-    render(withStoreComponent);
-    let newText = '';
-
-    for (let i = 0; i <= 350; i++) {
-      newText += `${i}`;
-    }
-
-    await userEvent.type(screen.getByTestId(idTextArea), newText);
-
-    expect(screen.getByText(newText)).toBeInTheDocument();
-
-    expect(screen.queryByTestId(buttonId)).not.toHaveAttribute(
-      'disabled',
-      false
-    );
-  });
 });

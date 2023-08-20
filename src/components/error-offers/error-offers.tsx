@@ -24,6 +24,7 @@ const ErrorOffers: React.FC = () => {
         <button
           className={`${styles.buttonError}`}
           onClick={onClickButtonToLoadOffers}
+          data-testid="button_fetch"
         >
           Try again?
         </button>

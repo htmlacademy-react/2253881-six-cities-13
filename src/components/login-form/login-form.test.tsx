@@ -13,7 +13,25 @@ describe('Component:Login form', () => {
     expect(screen.getByText('Password')).toBeInTheDocument();
   });
 
-  it('shoud be correct when input', async () => {
+  it('should be correct when input', async () => {
+    const inputPasswordId = 'input_password';
+    const inputEmailId = 'input_email';
+
+    const expecLogin = 'sadasd@asdasd.sd';
+    const expectPassword = 'sad2';
+
+    const { withStoreComponent } = withStore(<LoginForm />);
+
+    render(withStoreComponent);
+
+    await userEvent.type(screen.getByTestId(inputEmailId), expecLogin);
+    await userEvent.type(screen.getByTestId(inputPasswordId), expectPassword);
+
+    expect(screen.getByDisplayValue(expecLogin)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(expectPassword)).toBeInTheDocument();
+  });
+
+  it('should be correct when input', async () => {
     const inputPasswordId = 'input_password';
     const inputEmailId = 'input_email';
 
