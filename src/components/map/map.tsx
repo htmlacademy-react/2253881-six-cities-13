@@ -8,13 +8,13 @@ import { IOffer } from '../../types/offers';
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
+  iconSize: [29, 39],
   iconAnchor: [20, 40],
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
+  iconSize: [29, 39],
   iconAnchor: [20, 40],
 });
 
@@ -46,12 +46,13 @@ const Map: React.FC<IMapProps> = ({ selectedPointId, offers }) => {
           .addTo(markerLayer);
       });
 
+      map.flyTo(
+        [offers[0].city.location.latitude, offers[0].city.location.longitude],
+        offers[0].city.location.zoom
+      );
+
       return () => {
         map.removeLayer(markerLayer);
-        map.flyTo(
-          [offers[0].city.location.latitude, offers[0].city.location.longitude],
-          offers[0].city.location.zoom
-        );
       };
     }
   }, [map, offers, selectedPointId]);

@@ -25,13 +25,13 @@ export interface IOffer {
 export interface IModuleForIOffer {
   description: string;
   bedrooms: number;
-  goods: [string];
+  goods: Array<string>;
   host: {
     name: string;
     avatarUrl: string;
     isPro: boolean;
   };
-  images: [string];
+  images: Array<string>;
   maxAdults: number;
 }
 

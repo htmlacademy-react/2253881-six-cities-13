@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { IOffer } from '../../types/offers';
-import { Path } from '../../consts';
+import { AuthorizationStatus, Path } from '../../consts';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+import {
+  changeFavouriteStatusOffer,
+  fetchFavOffers,
+} from '../../store/offers-slice/async-offers-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import './one-place-card.css';
 
 interface OnePlaceCardOffer extends IOffer {
@@ -16,27 +22,35 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
   type,
   price,
   isPremium,
+  isFavorite,
   rating,
   previewImage,
   setActiveOfferId,
 }) => {
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthStatus);
   const isOffer = useLocation().pathname.includes(Path.Offer);
 
-  const [isHover, setHover] = useState<boolean>(false);
-
-  const mouseStatusEditHandler = () => {
-    setHover(!isHover);
+  const mouseStatusEditHandler = useCallback(() => {
     setActiveOfferId?.(id);
-  };
+  }, [setActiveOfferId, id]);
 
-  const ratingLength = `${(100 / 5) * rating}%`;
+  const mouseStatusLeaveEditHandler = useCallback(() => {
+    setActiveOfferId?.('');
+  }, [setActiveOfferId]);
 
-  // prettier-ignore
+  const ratingLength = `${(100 / 5) * Math.round(rating)}%`;
+
+  const changeFavouriteStatus = useCallback(() => {
+    dispatch(changeFavouriteStatusOffer({ idOffer: id, isFavorite }));
+    dispatch(fetchFavOffers());
+  }, [dispatch, id, isFavorite]);
+
 
   return (
     <article
       onMouseEnter={mouseStatusEditHandler}
-      onMouseLeave={mouseStatusEditHandler}
+      onMouseLeave={mouseStatusLeaveEditHandler}
       className={classNames(
         'place-card',
         {
@@ -56,7 +70,7 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
           {'near-places__image-wrapper': !isOffer}
         )}
       >
-        <Link to='#'>
+        <Link to={`../${Path.Offer}/${id}`}>
           <img
             className="place-card__image img-card"
             src={previewImage}
@@ -70,7 +84,7 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button onClick={changeFavouriteStatus} className={classNames('place-card__bookmark-button','button',{'place-card__bookmark-button--active' : isFavorite && authStatus === AuthorizationStatus.Auth})} type="button">
             <svg className="place-card__bookmark-icon card-bookmark-icon">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

@@ -1,26 +1,43 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { setSortMethod } from '../../store/actions';
+import { setSortMethod } from '../../store/offers-slice/offers-slice';
+import { getSortMethod } from '../../store/offers-slice/selectors-offers';
 import { SortMethod } from '../../consts';
 import './sort-places.css';
 
-interface ISortPlaces {
-  isSortSelectOpen: boolean;
-  setIsSortSelectOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const SortPlaces: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const currentSort = useAppSelector(getSortMethod);
+  const [isSortSelectOpen, setIsSortSelectOpen] = useState<boolean>(false);
 
-const SortPlaces: React.FC<ISortPlaces> = ({
-  isSortSelectOpen,
-  setIsSortSelectOpen,
-}) => {
-  const currentSort = useAppSelector((state) => state.sortMethod);
-  const dispath = useAppDispatch();
+  const onClickLi = useCallback(
+    (sortMethod: SortMethod) => () => {
+      dispatch(setSortMethod(sortMethod));
+      setIsSortSelectOpen((isOpened) => !isOpened);
+    },
+    [dispatch]
+  );
 
-  const onClickLi = (sortMethod: SortMethod) => {
-    dispath(setSortMethod(sortMethod));
-    setIsSortSelectOpen((isOpened) => !isOpened);
-  };
+  const onClickDocumentHideSort = useCallback(
+    (evt: MouseEvent) => {
+      if (
+        (evt.target as HTMLElement).className !== 'places__option' &&
+        (evt.target as HTMLElement).className !== 'places__sorting-type' &&
+        isSortSelectOpen
+      ) {
+        setIsSortSelectOpen(false);
+      }
+    },
+    [isSortSelectOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener('click', onClickDocumentHideSort);
+    return () => {
+      document.removeEventListener('click', onClickDocumentHideSort);
+    };
+  }, [onClickDocumentHideSort]);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -44,7 +61,7 @@ const SortPlaces: React.FC<ISortPlaces> = ({
                 'places__option--active': el === currentSort,
               })}
               tabIndex={0}
-              onClick={() => onClickLi(el)}
+              onClick={onClickLi(el)}
             >
               {el}
             </li>

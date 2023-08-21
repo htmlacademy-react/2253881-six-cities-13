@@ -17,7 +17,6 @@ interface IDetailMessageType {
 }
 
 const StatusCodeMapping: Record<number, boolean> = {
-  [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.NOT_FOUND]: true,
 };
 

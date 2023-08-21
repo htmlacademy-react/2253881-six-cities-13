@@ -13,11 +13,15 @@ const Review: React.FC<IComment> = ({ date, user, comment, rating }) => {
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
-        <div className="reviews__avatar-wrapper user__avatar-wrapper">
+        <div
+          data-testid="container-img"
+          className="reviews__avatar-wrapper user__avatar-wrapper"
+        >
           <img
             className="reviews__avatar user__avatar img-size"
             src={user.avatarUrl}
             alt="Reviews avatar"
+            data-testid="image"
           />
         </div>
         <span className="reviews__user-name">{user.name}</span>

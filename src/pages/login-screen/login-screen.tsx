@@ -1,58 +1,36 @@
-import React, { useState } from 'react';
-import Header from '../../components/header/header';
-import { toast } from 'react-toastify';
+import React, { useCallback } from 'react';
 import { Navigate } from 'react-router-dom';
-import * as EmailValidator from 'email-validator';
+import Header from '../../components/header/header';
+import LoginForm from '../../components/login-form/login-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { loginAction } from '../../store/api-actions';
-import { AuthorizationStatus, Path } from '../../consts';
-
-interface IValuesInputs {
-  email: string;
-  password: string;
-}
+import { getAuthStatus } from '../../store/user-slice/selectors-user';
+import { AuthorizationStatus, Path, City, SortMethod } from '../../consts';
+import {
+  setCity,
+  setFiltredOffers,
+  setSortMethod,
+} from '../../store/offers-slice/offers-slice';
+import { redirectToRoute } from '../../store/actions';
+import styles from './login-screen.module.css';
 
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
+  const isLogged = useAppSelector(getAuthStatus);
 
-  const [inputValues, setInputsValues] = useState<IValuesInputs>({
-    email: '',
-    password: '',
-  });
+  const citys = Object.values(City);
 
-  const isLogged = useAppSelector((state) => state.authorizationStatus);
+  const randomCity = citys[Math.floor(Math.random() * citys.length)];
+
+  const onClickButtonCity = useCallback(() => {
+    dispatch(setCity(randomCity));
+    dispatch(setFiltredOffers(randomCity));
+    dispatch(setSortMethod(SortMethod.Popular));
+    dispatch(redirectToRoute(Path.Main));
+  }, [dispatch, randomCity]);
 
   if (isLogged === AuthorizationStatus.Auth) {
     return <Navigate to={Path.Main} />;
   }
-
-  const onChangeInputHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.name === 'email') {
-      setInputsValues({ ...inputValues, email: evt.target.value });
-    } else {
-      setInputsValues({ ...inputValues, password: evt.target.value });
-    }
-  };
-
-  const onClickButtonSubmitFormHandler = (
-    evt: React.FormEvent<HTMLFormElement>
-  ) => {
-    evt.preventDefault();
-
-    if (
-      !EmailValidator.validate(inputValues.email) ||
-      inputValues.password.length === 0
-    ) {
-      return;
-    }
-
-    if (inputValues.password.includes(' ')) {
-      toast.warn('Удалите пробелы из пароля');
-      return;
-    }
-
-    dispatch(loginAction(inputValues));
-  };
 
   return (
     <div className="page page--gray page--login">
@@ -61,49 +39,16 @@ const LoginScreen: React.FC = () => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form
-              onSubmit={onClickButtonSubmitFormHandler}
-              className="login__form form"
-              action="#"
-              method="post"
-            >
-              <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
-                <input
-                  className="login__input form__input"
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={inputValues.email}
-                  required
-                  onChange={onChangeInputHandler}
-                />
-              </div>
-              <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
-                <input
-                  className="login__input form__input"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={inputValues.password}
-                  required
-                  onChange={onChangeInputHandler}
-                />
-              </div>
-              <button
-                className="login__submit form__submit button"
-                type="submit"
-              >
-                Sign in
-              </button>
-            </form>
+            <LoginForm />
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <button
+                onClick={onClickButtonCity}
+                className={`${styles.buttonCity} locations__item-link`}
+              >
+                <span>{randomCity}</span>
+              </button>
             </div>
           </section>
         </div>
