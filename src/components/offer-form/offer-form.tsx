@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { IForm } from '../../types/common';
 import { sendComment } from '../../store/comments-slice/async-comments';
+import { MIN_LENGTH, MAX_LENGTH, ZERO } from '../../consts';
 import { getStatusLoadingComments } from '../../store/comments-slice/selectors-offers';
 
 const OfferForm: React.FC = () => {
@@ -18,12 +19,12 @@ const OfferForm: React.FC = () => {
     (evt: React.FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
 
-      if (form.comment.length < 50 && form.comment.length > 0) {
+      if (form.comment.length < MIN_LENGTH && form.comment.length > ZERO) {
         toast.warn('Комментарий должен содержать не менее 50ти символов');
         return;
       }
 
-      if (form.comment.length > 300) {
+      if (form.comment.length > MAX_LENGTH) {
         toast.warn('Комментарий должен содержать не более 300т символов');
         return;
       }
@@ -65,8 +66,8 @@ const OfferForm: React.FC = () => {
 
   const isDisabled =
     form.rating === null ||
-    form.comment.length < 50 ||
-    form.comment.length > 300 ||
+    form.comment.length < MIN_LENGTH ||
+    form.comment.length > MAX_LENGTH ||
     isLoading;
 
   return (

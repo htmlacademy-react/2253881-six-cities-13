@@ -6,6 +6,10 @@ export const COUNT_STARS = [
   [1, 'terribly'],
 ];
 
+export const MIN_LENGTH = 50;
+export const MAX_LENGTH = 300;
+export const ZERO = 0;
+
 export const USER_DATA_KEY = 'userData';
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
