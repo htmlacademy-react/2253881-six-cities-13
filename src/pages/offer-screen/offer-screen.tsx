@@ -1,34 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import useOffersRequests from '../../hooks/use-offers-requests';
 import OfferForm from '../../components/offer-form/offer-form';
 import Header from '../../components/header/header';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import NearbyPlacesList from '../../components/nearby-places-list/nearby-places-list';
-import { getLoadingStatus } from '../../store/offers-slice/selectors-offers';
+import {
+  getCurrentOffer,
+  getNearbyOffers,
+} from '../../store/offers-slice/selectors-offers';
 import { changeFavouriteStatusOffer } from '../../store/offers-slice/async-offers-actions';
 import { getAuthStatus } from '../../store/user-slice/selectors-user';
 import { AuthorizationStatus } from '../../consts';
 import './offer-screen.css';
 import classNames from 'classnames';
+import { getComments } from '../../store/comments-slice/selectors-offers';
+import { setCurrentOffer } from '../../store/offers-slice/offers-slice';
+import { setOffersCurrentOfferCommentsThunk } from '../../store/common-async-actions/set-offers-comments-async';
+import { useParams } from 'react-router-dom';
+import { getStatusLoadingCommon } from '../../store/common-async-actions/selectors-common';
 
 const OfferScreen: React.FC = () => {
-  const isLoading = useAppSelector(getLoadingStatus);
-  const isLogged = useAppSelector(getAuthStatus);
+  const { id } = useParams();
   const dispatch = useAppDispatch();
 
-  const { comments, nearbyOffers, currentOffer, setComments, setCurrentOffer } =
-    useOffersRequests();
+  const isLogged = useAppSelector(getAuthStatus);
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const isLoading = useAppSelector(getStatusLoadingCommon);
+
+  useEffect(() => {
+    dispatch(setOffersCurrentOfferCommentsThunk(id as string));
+  }, [id, dispatch]);
 
   const ratingLength = `${(100 / 5) * Math.round(currentOffer?.rating || 0)}%`;
 
-  if (isLoading) {
+  if (isLoading || currentOffer === null) {
     return (
       <div className="spinner-container-offer">
         <RotatingLines
-          strokeColor="grey"
+          strokeColor="lightblue"
           strokeWidth="3"
           animationDuration="0.75"
           width="150"
@@ -37,9 +50,8 @@ const OfferScreen: React.FC = () => {
       </div>
     );
   }
-
   const isRenderFormComment = isLogged === AuthorizationStatus.Auth && (
-    <OfferForm setComments={setComments} />
+    <OfferForm />
   );
 
   const changeFavouriteStatus = () => {
@@ -51,10 +63,12 @@ const OfferScreen: React.FC = () => {
         })
       );
 
-      setCurrentOffer({
-        ...currentOffer,
-        isFavorite: !currentOffer.isFavorite,
-      });
+      dispatch(
+        setCurrentOffer({
+          ...currentOffer,
+          isFavorite: !currentOffer.isFavorite,
+        })
+      );
     }
   };
 
@@ -65,7 +79,7 @@ const OfferScreen: React.FC = () => {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {currentOffer?.images.map((el) => (
+              {currentOffer.images.map((el) => (
                 <div
                   key={`unique-images-offersCurrent-${el}`}
                   className="offer__image-wrapper"
@@ -77,18 +91,18 @@ const OfferScreen: React.FC = () => {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {currentOffer?.isPremium && (
+              {currentOffer.isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
                 </div>
               )}
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">{currentOffer?.title}</h1>
+                <h1 className="offer__name">{currentOffer.title}</h1>
                 <button
                   onClick={changeFavouriteStatus}
                   className={classNames('offer__bookmark-button', 'button', {
                     'offer__bookmark-button--active':
-                      currentOffer?.isFavorite &&
+                      currentOffer.isFavorite &&
                       isLogged === AuthorizationStatus.Auth,
                   })}
                   type="button"
@@ -105,30 +119,30 @@ const OfferScreen: React.FC = () => {
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">
-                  {currentOffer?.rating}
+                  {currentOffer.rating}
                 </span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {currentOffer?.type}
+                  {currentOffer.type[0].toUpperCase() +
+                    currentOffer.type.slice(1)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {currentOffer?.bedrooms} Bedrooms
+                  {currentOffer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {currentOffer?.maxAdults} adults
+                  Max {currentOffer.maxAdults}
+                  {currentOffer.maxAdults > 1 ? 'adults' : 'adult'}
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">
-                  &euro;{currentOffer?.price}
-                </b>
+                <b className="offer__price-value">&euro;{currentOffer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {currentOffer?.goods.map((el) => (
+                  {currentOffer.goods.map((el) => (
                     <li key={`good-list-${el}`} className="offer__inside-item">
                       {el}
                     </li>
@@ -141,19 +155,19 @@ const OfferScreen: React.FC = () => {
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                     <img
                       className="offer__avatar user__avatar host-img"
-                      src={currentOffer?.host.avatarUrl}
+                      src={currentOffer.host.avatarUrl}
                       alt="Host avatar"
                     />
                   </div>
                   <span className="offer__user-name">
-                    {currentOffer?.host.name}
+                    {currentOffer.host.name}
                   </span>
-                  {currentOffer?.host.isPro && (
+                  {currentOffer.host.isPro && (
                     <span className="offer__user-status">Pro</span>
                   )}
                 </div>
                 <div className="offer__description">
-                  <p className="offer__text">{currentOffer?.description}</p>
+                  <p className="offer__text">{currentOffer.description}</p>
                 </div>
               </div>
               <section className="offer__reviews reviews">
@@ -163,13 +177,11 @@ const OfferScreen: React.FC = () => {
             </div>
           </div>
           <section className="offer__map map">
-            {nearbyOffers && (
-              <Map offers={nearbyOffers} selectedPointId={currentOffer?.id} />
-            )}
+            <Map offers={nearbyOffers} selectedPointId={currentOffer.id} />
           </section>
         </section>
         <div className="container">
-          {nearbyOffers && <NearbyPlacesList offers={nearbyOffers} />}
+          <NearbyPlacesList offers={nearbyOffers} />
         </div>
       </main>
     </div>

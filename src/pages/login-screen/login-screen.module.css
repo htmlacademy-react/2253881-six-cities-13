@@ -1,0 +1,6 @@
+.buttonCity {
+  border: none;
+}
+.buttonCity:hover {
+  cursor: pointer;
+}

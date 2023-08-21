@@ -1,43 +1,80 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import StarRating from '../star-rating/star-rating';
 import { useParams } from 'react-router-dom';
-import { IComment } from '../../types/comments';
-import useCommentsForm from '../../hooks/use-comments-form';
+import { toast } from 'react-toastify';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { IForm } from '../../types/common';
+import { sendComment } from '../../store/comments-slice/async-comments';
+import { getStatusLoadingComments } from '../../store/comments-slice/selectors-offers';
 
-interface IOfferFormProps {
-  setComments: React.Dispatch<React.SetStateAction<IComment[] | undefined>>;
-}
-
-const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
+const OfferForm: React.FC = () => {
   const { id } = useParams();
+  const isLoading = useAppSelector(getStatusLoadingComments);
 
-  const [sendComment, setForm, form] = useCommentsForm({
-    setComments,
-    id,
-  });
+  const dispatch = useAppDispatch();
+  const [form, setForm] = useState<IForm>({ rating: null, comment: '' });
 
-  const starChangeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prevState) => ({
-      ...prevState,
-      rating: Number(evt.target.value),
-    }));
-  };
+  const sendCommentOnSubmit = useCallback(
+    (evt: React.FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
 
-  const textAreaChangeHandler = (
-    evt: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setForm((prevState) => ({
-      ...prevState,
-      comment: evt.target.value,
-    }));
-  };
+      if (form.comment.length < 50 && form.comment.length > 0) {
+        toast.warn('Комментарий должен содержать не менее 50ти символов');
+        return;
+      }
+
+      if (form.comment.length > 300) {
+        toast.warn('Комментарий должен содержать не более 300т символов');
+        return;
+      }
+
+      if (!form.rating) {
+        toast.warn('Укажите рейтинг');
+        return;
+      }
+
+      const value = { id: id as string, form };
+
+      dispatch(sendComment(value))
+        .unwrap()
+        .then(() => setForm({ rating: null, comment: '' }))
+        .catch(() => toast.warn('Проверьте форму на корректность'));
+    },
+    [dispatch, form, id]
+  );
+
+  const starChangeHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      setForm((prevState) => ({
+        ...prevState,
+        rating: Number(evt.target.value),
+      }));
+    },
+    []
+  );
+
+  const textAreaChangeHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setForm((prevState) => ({
+        ...prevState,
+        comment: evt.target.value,
+      }));
+    },
+    []
+  );
+
+  const isDisabled =
+    form.rating === null ||
+    form.comment.length < 50 ||
+    form.comment.length > 300 ||
+    isLoading;
 
   return (
     <form
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={sendComment}
+      onSubmit={sendCommentOnSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -45,10 +82,13 @@ const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
       <StarRating
         starChangeHandler={starChangeHandler}
         startValue={form.rating}
+        isLoading={isLoading}
       />
       <textarea
+        data-testid="text_area_comment"
         onChange={textAreaChangeHandler}
         value={form.comment}
+        disabled={isLoading}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
@@ -60,7 +100,12 @@ const OfferForm: React.FC<IOfferFormProps> = ({ setComments }) => {
           <span className="reviews__star">rating</span> and describe your stay
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">
+        <button
+          data-testid="button_send"
+          disabled={isDisabled}
+          className="reviews__submit form__submit button"
+          type="submit"
+        >
           Submit
         </button>
       </div>

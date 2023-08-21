@@ -1,42 +1,43 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { RotatingLines } from 'react-loader-spinner';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import EmptyFavoritesList from '../empty-favorites-list/empty-favorites-list';
 import FavouriteItem from '../favourite-item/favourite-item';
-import { getToken } from '../../services/token';
-import { BASE_BACKEND_URL, APIRoute, Path } from '../../consts';
-import { IOffer } from '../../types/offers';
+import {
+  setCity,
+  setFiltredOffers,
+  setSortMethod,
+} from '../../store/offers-slice/offers-slice';
+
+import {
+  getFavOffers,
+  getLoadingStatus,
+} from '../../store/offers-slice/selectors-offers';
+import { Path, SortMethod } from '../../consts';
+import { City } from '../../consts';
 import styles from './favourite-list.module.css';
 
 const FavoriteList: React.FC = () => {
-  const [favOffers, setFavOffers] = useState<Array<IOffer>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
 
-  const downloadFavOffers = useCallback(async () => {
-    const token = getToken();
+  const favOffers = useAppSelector(getFavOffers);
+  const isLoading = useAppSelector(getLoadingStatus);
 
-    const res = await axios.get<Array<IOffer>>(
-      `${BASE_BACKEND_URL}${APIRoute.Favorite}`,
-      {
-        headers: { 'x-token': token },
-      }
-    );
-    const { data } = res;
-
-    setFavOffers(data);
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    downloadFavOffers();
-  }, [downloadFavOffers]);
+  const onClickCitySpan = useCallback(
+    (el: string) => () => {
+      dispatch(setCity(el as City));
+      dispatch(setFiltredOffers(el as City));
+      dispatch(setSortMethod(SortMethod.Popular));
+    },
+    [dispatch]
+  );
 
   if (isLoading) {
     return (
-      <div className={styles.containerForLoader}>
+      <div data-testid="loading-stage" className={styles.containerForLoader}>
         <RotatingLines
-          strokeColor="grey"
+          strokeColor="lightblue"
           strokeWidth="3"
           animationDuration="0.75"
           width="150"
@@ -46,11 +47,11 @@ const FavoriteList: React.FC = () => {
     );
   }
 
-  const cityList = Array.from(new Set(favOffers.map((el) => el.city.name)));
-
   if (favOffers.length === 0 && !isLoading) {
     return <EmptyFavoritesList />;
   }
+
+  const cityList = Array.from(new Set(favOffers.map((el) => el.city.name)));
 
   return (
     <section className="favorites">
@@ -58,12 +59,17 @@ const FavoriteList: React.FC = () => {
       <ul className="favorites__list">
         {cityList.map((city) => (
           <li
+            data-testid="li-list"
             key={`uniq-city-name-fav-list${city}`}
             className="favorites__locations-items"
           >
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <Link className="locations__item-link" to={Path.Main}>
+                <Link
+                  onClick={onClickCitySpan(city)}
+                  className="locations__item-link"
+                  to={Path.Main}
+                >
                   <span>{city}</span>
                 </Link>
               </div>
@@ -75,7 +81,6 @@ const FavoriteList: React.FC = () => {
                   <FavouriteItem
                     key={`${el.id}-${el.city.name}-fav-item-of-list`}
                     {...el}
-                    setFavOffers={setFavOffers}
                   />
                 ))}
             </div>

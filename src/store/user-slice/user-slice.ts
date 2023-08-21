@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import { checkAuthAction, logoutAction, loginAction } from './async-user-slice';
-import { deleteToken, setToken } from '../../services/token';
+import { deleteToken } from '../../services/token';
 import { AuthorizationStatus } from '../../consts';
-
+import { deleteLocalData } from '../../services/utils';
 interface IuserSlice {
   authorizationStatus: AuthorizationStatus;
 }
@@ -33,13 +33,13 @@ const userSlice = createSlice({
       })
       .addCase(logoutAction.fulfilled, (state) => {
         deleteToken();
+        deleteLocalData();
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(logoutAction.rejected, () => {
         toast.warn('Ошибка разлогирования');
       })
-      .addCase(loginAction.fulfilled, (state, action) => {
-        setToken(action.payload.token);
+      .addCase(loginAction.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
       })
       .addCase(loginAction.rejected, () => {

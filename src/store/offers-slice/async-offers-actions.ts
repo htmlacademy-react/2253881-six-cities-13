@@ -17,6 +17,25 @@ export const fetchOffersAction = createAsyncThunk<
   dispatch(setFiltredOffers(city));
 });
 
+export const fetchFavOffers = createAsyncThunk<
+  Array<IOffer>,
+  undefined,
+  { dispatch: AppDispatch; state: State; extra: AxiosInstance }
+>('offers/fetchFavOffers', async () => {
+  const token = getToken();
+
+  const res = await axios.get<Array<IOffer>>(
+    `${BASE_BACKEND_URL}${APIRoute.Favorite}`,
+    {
+      headers: { 'x-token': token },
+    }
+  );
+
+  const { data } = res;
+
+  return data;
+});
+
 export const changeFavouriteStatusOffer = createAsyncThunk<
   IOffer,
   { idOffer: string; isFavorite: boolean },
@@ -36,7 +55,7 @@ export const changeFavouriteStatusOffer = createAsyncThunk<
       );
 
       const { data } = res;
-
+      dispatch(fetchFavOffers());
       return data;
     } catch {
       dispatch(redirectToRoute(Path.Login));

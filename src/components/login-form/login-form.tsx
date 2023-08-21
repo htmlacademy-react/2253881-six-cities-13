@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { toast } from 'react-toastify';
 import * as EmailValidator from 'email-validator';
@@ -17,38 +17,42 @@ const LoginForm: React.FC = () => {
     password: '',
   });
 
-  const onChangeInputHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.name === 'email') {
-      setInputsValues({ ...inputValues, email: evt.target.value });
-    } else {
-      setInputsValues({ ...inputValues, password: evt.target.value });
-    }
-  };
+  const onChangeInputHandler = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      if (evt.target.name === 'email') {
+        setInputsValues({ ...inputValues, email: evt.target.value });
+      } else {
+        setInputsValues({ ...inputValues, password: evt.target.value });
+      }
+    },
+    [setInputsValues, inputValues]
+  );
 
-  const onClickButtonSubmitFormHandler = (
-    evt: React.FormEvent<HTMLFormElement>
-  ) => {
-    evt.preventDefault();
+  const onClickButtonSubmitFormHandler = useCallback(
+    (evt: React.FormEvent<HTMLFormElement>) => {
+      evt.preventDefault();
 
-    const regForPass = /^[a-z]+\d+|^\d+[a-z]+/gi;
+      const regForPass = /^[a-z]+\d+|^\d+[a-z]+/gi;
 
-    if (!EmailValidator.validate(inputValues.email)) {
-      toast.warn('Проверьте email на корректность');
-      return;
-    }
+      if (!EmailValidator.validate(inputValues.email)) {
+        toast.warn('Проверьте email на корректность');
+        return;
+      }
 
-    if (
-      inputValues.password.includes(' ') ||
-      !inputValues.password.match(regForPass) ||
-      inputValues.password.match(/\W/g) ||
-      inputValues.password.length === 0
-    ) {
-      toast.warn('Проверьте пароль на корректность');
-      return;
-    }
+      if (
+        inputValues.password.includes(' ') ||
+        !inputValues.password.match(regForPass) ||
+        inputValues.password.match(/\W/g) ||
+        inputValues.password.length === 0
+      ) {
+        toast.warn('Проверьте пароль на корректность');
+        return;
+      }
 
-    dispatch(loginAction(inputValues));
-  };
+      dispatch(loginAction(inputValues));
+    },
+    [dispatch, inputValues]
+  );
 
   return (
     <form
@@ -60,6 +64,7 @@ const LoginForm: React.FC = () => {
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">E-mail</label>
         <input
+          data-testid="input_email"
           className="login__input form__input"
           type="email"
           name="email"
@@ -72,6 +77,7 @@ const LoginForm: React.FC = () => {
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">Password</label>
         <input
+          data-testid="input_password"
           className="login__input form__input"
           type="password"
           name="password"
@@ -81,7 +87,11 @@ const LoginForm: React.FC = () => {
           onChange={onChangeInputHandler}
         />
       </div>
-      <button className="login__submit form__submit button" type="submit">
+      <button
+        data-testid="submit-button"
+        className="login__submit form__submit button"
+        type="submit"
+      >
         Sign in
       </button>
     </form>

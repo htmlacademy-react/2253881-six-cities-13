@@ -1,4 +1,12 @@
-export const COUNT_STARS = [5, 4, 3, 2, 1];
+export const COUNT_STARS = [
+  [5, 'perfect'],
+  [4, 'good'],
+  [3, 'not bad'],
+  [2, 'badly'],
+  [1, 'terribly'],
+];
+
+export const USER_DATA_KEY = 'userData';
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 
@@ -13,7 +21,7 @@ export const TILE_LAYER_ULR =
 
 export const enum Path {
   Main = '/',
-  Favorite = 'favourite',
+  Favorite = 'favorites',
   Login = 'login',
   Offer = 'offer',
   NotFound = '*',

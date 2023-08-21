@@ -10,3 +10,10 @@ export interface IUserResponseLogin {
   email: string;
   token: string;
 }
+
+export interface IUserLoginData {
+  email: string;
+  name: string;
+  isPro: boolean;
+  avatarUrl: string;
+}
