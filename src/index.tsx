@@ -11,6 +11,7 @@ import { checkAuthAction } from './store/user-slice/async-user-slice';
 import { City } from './consts';
 import HistoryRouter from './components/history-router/history-router';
 import browserHistory from './browser-history';
+import { ToastContainer } from 'react-toastify';
 
 store.dispatch(fetchOffersAction(City.Paris));
 store.dispatch(checkAuthAction());
@@ -23,6 +24,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer />
       <HistoryRouter history={browserHistory}>
         <App />
       </HistoryRouter>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import { RotatingLines } from 'react-loader-spinner';
 import MainScreen from '../../pages/main-screen/main-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favourites-screen';
@@ -43,25 +42,22 @@ const App: React.FC = () => {
   }
 
   return (
-    <>
-      <ToastContainer />
-      <Routes>
-        <Route path={Path.Main}>
-          <Route index element={<MainScreen />} />
-          <Route
-            path={Path.Favorite}
-            element={
-              <PrivateRoute authStatus={authStatus}>
-                <FavoritesScreen />
-              </PrivateRoute>
-            }
-          />
-          <Route path={Path.Login} element={<LoginScreen />} />
-          <Route path={`${Path.Offer}/:id`} element={<OfferScreen />} />
-          <Route path={Path.NotFound} element={<NotFound />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path={Path.Main}>
+        <Route index element={<MainScreen />} />
+        <Route
+          path={Path.Favorite}
+          element={
+            <PrivateRoute authStatus={authStatus}>
+              <FavoritesScreen />
+            </PrivateRoute>
+          }
+        />
+        <Route path={Path.Login} element={<LoginScreen />} />
+        <Route path={`${Path.Offer}/:id`} element={<OfferScreen />} />
+        <Route path={Path.NotFound} element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 };
 

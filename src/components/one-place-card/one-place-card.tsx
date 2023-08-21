@@ -46,7 +46,6 @@ const OnePlaceCard: React.FC<OnePlaceCardOffer> = ({
     dispatch(fetchFavOffers());
   }, [dispatch, id, isFavorite]);
 
-  // prettier-ignore
 
   return (
     <article

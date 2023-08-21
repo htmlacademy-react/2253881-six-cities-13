@@ -131,7 +131,7 @@ const OfferScreen: React.FC = () => {
                   {currentOffer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {currentOffer.maxAdults}{' '}
+                  Max {currentOffer.maxAdults}
                   {currentOffer.maxAdults > 1 ? 'adults' : 'adult'}
                 </li>
               </ul>
